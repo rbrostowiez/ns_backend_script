@@ -36,8 +36,8 @@
         "#customFileBrowser { display: none; position: absolute; top: 10%; left: 0; right: 0; bottom: 0; background: white; width: 75%; height: 75%; margin: 0 auto; padding: 16px; overflow: hidden; z-index: 1000; }",
         "#fileList{ display:block; width: 300px; height: 100%; padding: 0; background: green; }",
         "#folderHierarchy{ height: 100%; width:30%; display: inline-block; overflow-x: scroll; overflow-y: auto; vertical-align: top; }",
-        "#folderHierarchy span{ display: block; }",
-        "#folderHierarchy span:hover{ cursor: pointer; background: #D0D0D0; }",
+        "#folderHierarchy a.label{ display: block; text-decoration: none; }",
+        "#folderHierarchy a.label:hover{ cursor: pointer; background: #D0D0D0; text-decoration: underline; }",
         "#fileList{ width: 70%; display: inline-block; overflow: auto; vertical-align: top;}",
         "#browserContent{ height: 100%; overflow: hidden; }"
     ].join("\n");
@@ -1343,8 +1343,11 @@
                 for(var i = 0, l = keys.length; i < l; i++){
                     folder = pageInfo.folderData[keys[i]];
                     markup += [
-                        '<li data-level="', level, '"  style="text-indent: ', (level * 8 ) , 'px;">',
-                            '<span class="label"><span class="expand-collapse">&nbsp;</span>', folder.name, '</span>',
+                        '<li data-level="', level, '" >',
+                            '<a class="label" href="#', keys[i] , '" style="text-indent: ', (level * 12 ) , 'px;" >',
+                                '<span class="expand-collapse"></span>',
+                                folder.name,
+                            '</a>',
                             traverseHierarchy(obj[keys[i]], level + 1),
                         '</li>'
                     ].join('');
@@ -1378,6 +1381,51 @@
 
 
     /*
+    This function binds all the handlers for the FileBrowser FolderHierarchy section.  It binds expand/collapse,
+    as well as the click handler for folder labels.
+    */
+    var initializeFileBrowserHierarchy = function(){
+        //Retrieving the parent element
+        var $h = pageInfo.$fileBrowser.find('#folderHierarchy');
+        //Binding expand/collapse
+        $h.on('click', '.expand-collapse', fileBrowserToggleExpandCollapse);
+        //Bind clicks for hierarchy spans
+        $h.on('click', 'a.label', showDirectoryContents);
+    };
+
+    /*
+    This is a click handler for the folder label within the FolderHiearchy section of the FileBrowser. It will
+    load the list of files and sub-folders for the clicked folder in the right-side of the FileBrowser.
+    */
+    var showDirectoryContents = function(e){
+        var folderId, $target;
+
+        $target = jQuery(e.target);
+        folderId = $target.attr('href').substring(1);
+
+        //TODO: Show the contents of the directory
+        console.log('showing contents of folder: ', folderId);
+        return false;
+    };
+
+    /*
+    This function is an click handler for the expand/collapse buttons in the folderHierarchy.  It will
+    toggle the state of the child UL within the span the toggle button was clicked.
+
+    Note: It will perform a simple collapse, and will not change the state of internally collapsed elements.
+    */
+    var fileBrowserToggleExpandCollapse = function(e){
+        var folderId, $target, $parent;
+
+        $target = jQuery(e.target);
+        $parent = $target.parent();
+        folderId = $parent.attr('href').substring(1);
+        //TODO: Implement clickHandler
+        console.log('expand/collapse for folder: ', folderId);
+        return false;
+    };
+
+    /*
     This function will initialize the fileBrowser and trigger a togle event when ready.  It should only be
     called by the toggle function, and only for the first time it's clicked within a page's lifetime.
 
@@ -1390,12 +1438,15 @@
         initializeFileHierarchy();
         //Instantiating the DOM elements
         var $fileBrowser =  generateFileBrowserElements();
-        //Binding event handlers
+
 
         //Appending fileBrowser to the DOM and showing it
-        console.log($fileBrowser);
         jQuery('body').append($fileBrowser);
         pageInfo.$fileBrowser = $fileBrowser;
+        //Binding event handlers
+        initializeFileBrowserHierarchy();
+
+
 
         toggleFileBrowser();
     };
