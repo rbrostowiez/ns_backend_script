@@ -11,6 +11,27 @@
 // @require https://system.na1.netsuite.com/javascript/NLAPI.jsp__NS_VER=2014.1.0&minver=145&locale=en_US.nlqs
 // ==/UserScript==
 
+
+
+
+
+/*!
+ * JQuery Spliter Plugin
+ * Copyright (C) 2010-2013 Jakub Jankiewicz <http://jcubic.pl>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 (function(e,t){var n=0;var r=null;var i=[];var s=null;e.fn.split=function(o){function y(e){if(typeof e==="number"){return e}else if(typeof e==="string"){var t=e.match(/^([0-9]+)(px|%)$/);if(t){if(t[2]=="px"){return+t[1]}else{if(l.orientation=="vertical"){return p*+t[1]/100}else if(l.orientation=="horizontal"){return d*+t[1]/100}}}else{}}else{}}var u=this.data("splitter");if(u){return u}var a;var f;var l=e.extend({limit:100,orientation:"horizontal",position:"50%",invisible:false,onDragStart:e.noop,onDragEnd:e.noop,onDrag:e.noop},o||{});this.settings=l;var c;var h=this.children();if(l.orientation=="vertical"){a=h.first().addClass("left_panel");f=a.next().addClass("right_panel");c="vsplitter"}else if(l.orientation=="horizontal"){a=h.first().addClass("top_panel");f=a.next().addClass("bottom_panel");c="hsplitter"}if(l.invisible){c+=" splitter-invisible"}var p=this.width();var d=this.height();var v=n++;this.addClass("splitter_panel");var m=e("<div/>").addClass(c).mouseenter(function(){r=v}).mouseleave(function(){r=null}).insertAfter(a);var g;var b=e.extend(this,{refresh:function(){var e=this.width();var t=this.height();if(p!=e||d!=t){p=this.width();d=this.height();b.position(g)}},position:function(){if(l.orientation=="vertical"){return function(e,n){if(e===t){return g}else{g=y(e);var r=m.width();var i=r/2;if(l.invisible){var s=a.width(g).outerWidth();f.width(b.width()-s);m.css("left",s-i)}else{var s=a.width(g-i).outerWidth();f.width(b.width()-s-r);m.css("left",s)}}if(!n){b.find(".splitter_panel").trigger("splitter.resize")}return b}}else if(l.orientation=="horizontal"){return function(e,n){if(e===t){return g}else{g=y(e);var r=m.height();var i=r/2;if(l.invisible){var s=a.height(g).outerHeight();f.height(b.height()-s);m.css("top",s-i)}else{var s=a.height(g-i).outerHeight();f.height(b.height()-s-r);m.css("top",s)}}if(!n){b.find(".splitter_panel").trigger("splitter.resize")}return b}}else{return e.noop}}(),orientation:l.orientation,limit:l.limit,isActive:function(){return r===v},destroy:function(){b.removeClass("splitter_panel");m.unbind("mouseenter");m.unbind("mouseleave");if(l.orientation=="vertical"){a.removeClass("left_panel");f.removeClass("right_panel")}else if(l.orientation=="horizontal"){a.removeClass("top_panel");f.removeClass("bottom_panel")}b.unbind("splitter.resize");b.find(".splitter_panel").trigger("splitter.resize");i[v]=null;m.remove();var t=false;for(var r=i.length;r--;){if(i[r]!==null){t=true;break}}if(!t){e(document.documentElement).unbind(".splitter");e(window).unbind("resize.splitter");b.data("splitter",null);i=[];n=0}}});b.bind("splitter.resize",function(e){var t=b.position();if(b.orientation=="vertical"&&t>b.width()){t=b.width()-b.limit-1}else if(b.orientation=="horizontal"&&t>b.height()){t=b.height()-b.limit-1}if(t<b.limit){t=b.limit+1}b.position(t,true)});var w;if(l.orientation=="vertical"){if(w>p-l.limit){w=p-l.limit}else{w=y(l.position)}}else if(l.orientation=="horizontal"){if(w>d-l.limit){w=d-l.limit}else{w=y(l.position)}}if(w<l.limit){w=l.limit}b.position(w,true);if(i.length==0){e(window).bind("resize.splitter",function(){e.each(i,function(e,t){t.refresh()})});e(document.documentElement).bind("mousedown.splitter",function(t){if(r!==null&&t.which==1){s=i[r];e('<div class="splitterMask"></div>').css("cursor",m.css("cursor")).insertAfter(s);s.settings.onDragStart(t);return false}}).bind("mouseup.splitter",function(t){if(s){e(".splitterMask").remove();s.settings.onDragEnd(t);s=null}}).bind("mousemove.splitter",function(e){if(s!==null){var t=s.limit;var n=s.offset();if(s.orientation=="vertical"){var r=e.pageX-n.left;if(r<=s.limit){r=s.limit+1}else if(r>=s.width()-t){r=s.width()-t-1}if(r>s.limit&&r<s.width()-t){s.position(r,true);s.find(".splitter_panel").trigger("splitter.resize");e.preventDefault()}}else if(s.orientation=="horizontal"){var i=e.pageY-n.top;if(i<=s.limit){i=s.limit+1}else if(i>=s.height()-t){i=s.height()-t-1}if(i>s.limit&&i<s.height()-t){s.position(i,true);s.find(".splitter_panel").trigger("splitter.resize");e.preventDefault()}}s.settings.onDrag(e)}})}i.push(b);b.data("splitter",b);return b}})(jQuery);
 
 
