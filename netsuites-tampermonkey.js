@@ -1324,16 +1324,17 @@
 
     };
 
-    /*
-    This function will go through the fileHierarchy and generate DOM elments for the entire hiearchy.
-    After that, it will return the jQuery object.
-    */
-    var generateFileBrowserElements = function(){
-        var i, l, $container, $content, currentLevel;
 
-        $container = jQuery('<div id="customFileBrowser"></div>');
+    /*
+    This function will recursively traverse the folderHierarchy to generate the markup needed to render a
+    file tree of the hiearchy.  It leverages recursion, and the traverseHierarchy function is defined within
+    this function, for scoping purposes.
+    */
+    var generateFileBrowserHierarchyMarkup = function(){
+        var i, l, currentLevel;
+
         currentLevel = 0;
-        //TODO: Move this recursive function and it's implementation to separate function
+        //A recursive function to traverse the folderHierarchy
         var traverseHierarchy = function(obj, level){
             var markup = '', keys = Object.keys(obj);
             //If there are children, then we will need to render a UL of them.
@@ -1358,12 +1359,34 @@
             //Returning the markup for this node
             return markup;
         };
-        //Generating Header/Footer as they're mostly containers for controls
-        var header = generateFileBrowserHeaderMarkup();
-        var footer = generateFileBrowserFooterMarkup();
 
-        var fileHierarchy = '<div id="folderHierarchy">' + traverseHierarchy(pageInfo.fileHierarchy, 0) + '</div>';
-        var fileList = '<div id="fileList">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel gravida mi. Proin ultrices maximus accumsan. Duis finibus ex non faucibus feugiat. Nunc facilisis fringilla elementum. Praesent efficitur, risus non semper ultricies, eros nibh blandit purus, non porta lacus mi in nunc. Donec iaculis elit bibendum ligula finibus consequat. Praesent eu aliquet ligula. Quisque et felis mollis nunc commodo tincidunt quis ac ante. Integer magna nisl, fermentum sit amet tellus id, bibendum molestie nisl. Cras congue congue dui vel auctor. Aenean quis est vestibulum, tristique nisi non, egestas ipsum. Duis urna felis, feugiat et purus in, convallis pretium quam. Maecenas faucibus purus non purus pulvinar venenatis. Maecenas lectus nisl, rutrum ut facilisis a, mollis eu nunc. Aliquam a aliquam sem, vel semper dui. Aliquam risus sem, aliquam quis elit quis, ornare mollis metus. Quisque volutpat odio sed urna dictum, eu fringilla ante rhoncus. Phasellus tincidunt arcu ut eros molestie maximus. Curabitur sit amet lectus in risus finibus iaculis a sit amet enim. Vivamus convallis ex quis dolor mollis pharetra. Sed sodales viverra dui ut pulvinar. Quisque semper in tortor sed feugiat. In dapibus velit sed massa mollis rutrum. Mauris turpis eros, congue sed turpis at, ultricies rutrum nulla. Suspendisse malesuada nunc nisl, vel euismod velit blandit ac. Proin vel blandit nisi, eget commodo tellus. In sed tellus pharetra, pharetra urna a, faucibus purus. In fringilla pharetra sem, ullamcorper rhoncus ex hendrerit in. Pellentesque gravida in libero in volutpat. Vivamus vehicula dapibus fringilla. Vivamus lectus nisl, commodo ornare gravida sed, blandit id risus. Ut congue, mauris at mattis aliquet, massa dolor euismod nibh, ut finibus lacus turpis porta magna. Nulla eu accumsan sapien. Mauris scelerisque fringilla purus nec dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus eget aliquam lectus, in sodales nunc. Fusce convallis purus elit, sed elementum ligula porttitor et. Nullam id est et enim consequat porttitor. Donec vel fermentum tellus. Ut scelerisque at diam at convallis. Pellentesque in lacus ut mauris vulputate aliquet. Proin quis libero ex. Suspendisse potenti. Phasellus et ipsum at justo interdum rutrum at non urna. In vitae metus dui. Vivamus fringilla odio eu ex facilisis, vitae placerat libero blandit. Nullam vel metus id tortor rhoncus dapibus eu ut ipsum. Phasellus venenatis tortor vel nisi ultrices consectetur. Mauris congue nec tellus non laoreet. Morbi interdum risus sed magna ornare eleifend. Nunc sed orci a nisi consequat maximus et sit amet nunc. Donec porttitor consectetur purus, et accumsan urna eleifend vitae. Sed condimentum bibendum libero, sed sollicitudin odio pretium sed.</div>';
+        return '<div id="folderHierarchy">' + traverseHierarchy(pageInfo.fileHierarchy, 0) + '</div>';
+    };
+
+    /*
+    Placeholder/stub function for generating the containers for the fileList
+    */
+    var genereateFileBrowserListMarkup = function(){
+        var markup = '<div id="fileList">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel gravida mi. Proin ultrices maximus accumsan. Duis finibus ex non faucibus feugiat. Nunc facilisis fringilla elementum. Praesent efficitur, risus non semper ultricies, eros nibh blandit purus, non porta lacus mi in nunc. Donec iaculis elit bibendum ligula finibus consequat. Praesent eu aliquet ligula. Quisque et felis mollis nunc commodo tincidunt quis ac ante. Integer magna nisl, fermentum sit amet tellus id, bibendum molestie nisl. Cras congue congue dui vel auctor. Aenean quis est vestibulum, tristique nisi non, egestas ipsum. Duis urna felis, feugiat et purus in, convallis pretium quam. Maecenas faucibus purus non purus pulvinar venenatis. Maecenas lectus nisl, rutrum ut facilisis a, mollis eu nunc. Aliquam a aliquam sem, vel semper dui. Aliquam risus sem, aliquam quis elit quis, ornare mollis metus. Quisque volutpat odio sed urna dictum, eu fringilla ante rhoncus. Phasellus tincidunt arcu ut eros molestie maximus. Curabitur sit amet lectus in risus finibus iaculis a sit amet enim. Vivamus convallis ex quis dolor mollis pharetra. Sed sodales viverra dui ut pulvinar. Quisque semper in tortor sed feugiat. In dapibus velit sed massa mollis rutrum. Mauris turpis eros, congue sed turpis at, ultricies rutrum nulla. Suspendisse malesuada nunc nisl, vel euismod velit blandit ac. Proin vel blandit nisi, eget commodo tellus. In sed tellus pharetra, pharetra urna a, faucibus purus. In fringilla pharetra sem, ullamcorper rhoncus ex hendrerit in. Pellentesque gravida in libero in volutpat. Vivamus vehicula dapibus fringilla. Vivamus lectus nisl, commodo ornare gravida sed, blandit id risus. Ut congue, mauris at mattis aliquet, massa dolor euismod nibh, ut finibus lacus turpis porta magna. Nulla eu accumsan sapien. Mauris scelerisque fringilla purus nec dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus eget aliquam lectus, in sodales nunc. Fusce convallis purus elit, sed elementum ligula porttitor et. Nullam id est et enim consequat porttitor. Donec vel fermentum tellus. Ut scelerisque at diam at convallis. Pellentesque in lacus ut mauris vulputate aliquet. Proin quis libero ex. Suspendisse potenti. Phasellus et ipsum at justo interdum rutrum at non urna. In vitae metus dui. Vivamus fringilla odio eu ex facilisis, vitae placerat libero blandit. Nullam vel metus id tortor rhoncus dapibus eu ut ipsum. Phasellus venenatis tortor vel nisi ultrices consectetur. Mauris congue nec tellus non laoreet. Morbi interdum risus sed magna ornare eleifend. Nunc sed orci a nisi consequat maximus et sit amet nunc. Donec porttitor consectetur purus, et accumsan urna eleifend vitae. Sed condimentum bibendum libero, sed sollicitudin odio pretium sed.</div>';
+        //TODO: Implement some basic markup to get a default view
+
+        return markup;
+    };
+
+    /*
+    This function will go through the fileHierarchy and generate DOM elments for the entire hiearchy.
+    After that, it will return the jQuery object.
+    */
+    var generateFileBrowserElements = function(){
+        var header, footer, fileHierarchy, fileList, $container;
+
+        $container = jQuery('<div id="customFileBrowser"></div>');
+        //Generating Header/Footer as they're mostly containers for controls
+        header = generateFileBrowserHeaderMarkup();
+        footer = generateFileBrowserFooterMarkup();
+        fileHierarchy = generateFileBrowserHierarchyMarkup();
+        fileList = genereateFileBrowserListMarkup();
+
         //Building the file content section
         var content = [
             '<div id="browserContent">',
@@ -1399,13 +1422,29 @@
     load the list of files and sub-folders for the clicked folder in the right-side of the FileBrowser.
     */
     var showDirectoryContents = function(e){
-        var folderId, $target;
+        var folderId, $target, files;
 
         $target = jQuery(e.target);
         folderId = $target.attr('href').substring(1);
 
         //TODO: Show the contents of the directory
         console.log('showing contents of folder: ', folderId);
+
+        files = pageInfo.fileList[pageInfo.userId].filter(function(v,i,a){
+            var l = v.path.length;
+
+            if(v.path[l-2] === folderId){
+                return true;
+            }
+            else{
+                return false;
+            }
+        });
+        //Retrieving the folders in the hierarchy that are direct children of the clicked folder
+        folders = Object.keys(retrieveFolderHierarchy(folderId));
+
+        console.log(files, folders);
+
         return false;
     };
 
