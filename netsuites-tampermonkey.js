@@ -1345,7 +1345,8 @@
                     markup += [
                         '<li data-level="', level, '" >',
                             '<a class="label" href="#', keys[i] , '" style="text-indent: ', (level * 12 ) , 'px;" >',
-                                '<span class="expand-collapse"></span>',
+                                '<span class="expand">+</span>',
+                                '<span class="collapse">-</span>',
                                 folder.name,
                             '</a>',
                             traverseHierarchy(obj[keys[i]], level + 1),
@@ -1388,7 +1389,7 @@
         //Retrieving the parent element
         var $h = pageInfo.$fileBrowser.find('#folderHierarchy');
         //Binding expand/collapse
-        $h.on('click', '.expand-collapse', fileBrowserToggleExpandCollapse);
+        $h.on('click', '.expand,.collapse', fileBrowserToggleExpandCollapse);
         //Bind clicks for hierarchy spans
         $h.on('click', 'a.label', showDirectoryContents);
     };
@@ -1479,7 +1480,6 @@
                 console.log(pageInfo);
                 return false;
             });
-
 
 
             generateButton("ClearCache", clearCache);
