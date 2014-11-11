@@ -300,10 +300,10 @@
 
                 $cell.parent().next().prepend($link);
             }//For Download As Zip functionality
-            else if(type === 'Folder'){
-                $downloadLink = jQuery('<a class="download-as-zip" style="float: left;" href="#' + cellId + '">Download Zip</a>');
-                $cell.parent().next().prepend($downloadLink);
-            }
+            // else if(type === 'Folder'){
+            //     $downloadLink = jQuery('<a class="download-as-zip" style="float: left;" href="#' + cellId + '">Download Zip</a>');
+            //     $cell.parent().next().prepend($downloadLink);
+            // }
         }
 
 
@@ -1429,7 +1429,7 @@
 
         //TODO: Show the contents of the directory
         console.log('showing contents of folder: ', folderId);
-
+        //Filtering against the list of folders
         files = pageInfo.fileList[pageInfo.userId].filter(function(v,i,a){
             var l = v.path.length;
 
@@ -1524,7 +1524,7 @@
             generateButton("ClearCache", clearCache);
 
             var fb = generateButton("FileBrowser", toggleFileBrowser);
-            fb.click();//Added for debug purposes
+            //fb.click();//Added for debug purposes
 
             //If we're on a Script page, we want the execution log to be the default tab
             if(pageInfo.path.indexOf("/app/common/scripting/webapp.nl") !== -1){
