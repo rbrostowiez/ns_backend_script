@@ -126,17 +126,7 @@
     };
 
     //Takes the param string(? to #)
-    var getParam = function(name, query){
-        query = query || location.search;
-        var p = query.substring(1).split("&");
-        for(var i = 0, l = p.length; i<l; i++){
-            var pVal = p[i].split("=");
-            if(pVal[0] === name){
-                return pVal[1];
-            }
-        }
-        return null;
-    };
+    
     //Performs an AJAX call to clear the CDN Cache
     var clearCache = function(){
         nlapiServerCall("/app/site/setup/clearsitecache.nl", "clearResponseSiteCache", [pageInfo.userId, pageInfo.siteId]);
