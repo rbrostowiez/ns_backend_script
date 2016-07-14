@@ -1496,23 +1496,27 @@
     };
 
     jQuery(document).ready(function(){
+        //Adds styles, instantiates some trivial stuff
         initialize();
 
-
+        //We only do something if it's a valid page
         if( isValidPage() ){
+            //This will pull data from local storage and global, as well as make a few AJAX requests
             setup();
-
+            //Adds some links to the menu
             setupLinks();
 
+            //This will log the primary data object for this script
             generateButton("LogData", function(e){
                 e.preventDefault();
                 console.log(pageInfo);
                 return false;
             });
 
-
+            //This will clear the CDN cache, use sparingly!
             generateButton("ClearCache", clearCache);
 
+            //This should trigger the file-browser provided by this add-on
             var fb = generateButton("FileBrowser", toggleFileBrowser);
             //fb.click();//Added for debug purposes
 
@@ -1539,6 +1543,7 @@
             toggle.click();
         }
         else if( isCustomPage() ){
+            //This handles custom set up for pages that don't support the typical add-on features
             pageInfo.customSetup();
         }
     });
