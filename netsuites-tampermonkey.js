@@ -1,13 +1,17 @@
 // ==UserScript==
 // @name       Netsuite Backend Script
-// @namespace  https://system.na1.netsuite.com
+// @namespace  raymond.brostowicz.com
 // @version    0.1
 // @description  BackEnd scrips for NetSuite ERP
 // @match      https://system.na1.netsuite.com/*
 // @match      https://system.sandbox.netsuite.com/*
-// @copyright  2014 Raymond Brostowicz
+// @copyright  2017 Raymond Brostowicz
+// @updateURL https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/netsuites-tampermonkey.js
+// @downloadURL https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/netsuites-tampermonkey.js
+// @require https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/styles.css
 // @require http://code.jquery.com/jquery-latest.js
 // @require http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js
+// @require https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/util.js
 // @require https://system.na1.netsuite.com/javascript/NLAPI.jsp__NS_VER=2014.1.0&minver=145&locale=en_US.nlqs
 // ==/UserScript==
 
@@ -15,32 +19,6 @@
     "use strict";
 
     var pageInfo, SOH, STX, ACK, ENQ;
-
-    var styles = [
-        "#buttonContainer{height: 34px; position: absolute; top: 4px; left: 4px; background: rgba(255, 255, 255, 0.9); border-radius: 3; border: 1px solid #808080; padding: 4px;z-index: 1001;}",
-        "#linkContainer{float: left; margin: 2px 8px; font-size:16px;}",
-        "#linkContainer a, #linkContainer a:link,#linkContainer a:active{float: left; margin: 0 4px; text-decoration: none;}",
-        "#linkContainer a:hover{text-decoration: underline;}",
-        "#sspLinks{display:none; position: absolute; top: 36px; left: 4px; padding: 4px; border-radius: 3; background: rgba(255, 255, 255, 0.9); border: 1px solid #808080; padding: 4px; z-index: 1000;}",
-        "#sspLinks a{display:block; font-size: 14px; text-decoration:none;}",
-        "#sspLinks a:hover{display:block; font-size: 14px;text-decoration:underline;}",
-        "ul#uir-global-search-container > li.uir-global-search-item a.edit-link,ul#uir-global-search-container > li.uir-global-search-item a.edit-link:link{width:78px !important; /*position: absolute; top:0; left: 0;*/ font-size: 14px; color: white !important; background: red; padding: 1px 7px; }",
-        "ul#uir-global-search-container > li.uir-global-search-item a.edit-link:hover{background: green;}",
-        "#nlAutoCompleteMenus {float: right;}",
-        "#twitter-typeahead { direction: ltr; display: inline-block; float: left; padding: 1px; position: relative; width: 200px;}",
-        ".typeaheadcustom.span6.tt-hint { background: none repeat scroll 0 0 rgb(255, 255, 255); border-color: transparent; box-shadow: none; left: 0; opacity: 1; position: absolute; top: 0; width: 200px;}",
-        ".typeaheadcustom.span6.tt-input {  background-color: transparent;  position: relative;  vertical-align: top;  width: 200px;}",
-        "#buttonContainer button{float:right;}",
-        "#buttonContainer .menu_tri{top: 0;vertical-align: middle;}",
-        "ul#uir-global-search-container > li.uir-global-search-item a.uir-item-view{width: calc(100% - 128px);}",
-        "#customFileBrowser { display: none; position: absolute; top: 10%; left: 0; right: 0; bottom: 0; background: white; width: 75%; height: 75%; margin: 0 auto; padding: 16px; overflow: hidden; z-index: 1000; }",
-        "#fileList{ display:block; width: 300px; height: 100%; padding: 0; background: green; }",
-        "#folderHierarchy{ height: 100%; width:30%; display: inline-block; overflow-x: scroll; overflow-y: auto; vertical-align: top; }",
-        "#folderHierarchy a.label{ display: block; text-decoration: none; }",
-        "#folderHierarchy a.label:hover{ cursor: pointer; background: #D0D0D0; text-decoration: underline; }",
-        "#fileList{ width: 70%; display: inline-block; overflow: auto; vertical-align: top;}",
-        "#browserContent{ height: 100%; overflow: hidden; }"
-    ].join("\n");
 
     //A list of pages which are excluded from the script's operation
     var excludedPages = [
