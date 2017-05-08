@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Netsuite Backend Script
 // @namespace  raymond.brostowicz.com
-// @version    0.2
+// @version    0.3
 // @description  BackEnd scrips for NetSuite ERP
 // @match      https://system.na1.netsuite.com/*
 // @match      https://system.sandbox.netsuite.com/*
@@ -16,22 +16,7 @@
 (function(){
     "use strict";
 
-    var pageInfo, SOH, STX, ACK, ENQ;
-
-    //A list of pages which are excluded from the script's operation
-    var excludedPages = [
-        "/pages/customerlogin.jsp", "/app/center/myroles.nl", "/app/setup/adminmessage.nl",
-        "/app/common/record/edittextmediaitem.nl", "/app/help/helpcenter.nl", "/app/help/nshelp.nl",
-        "/help/helpcenter", "/core/media/media.nl", "/core/help/fieldhelp.nl", "SSP Applications",
-        "/app/common/media/mediaitem.nl", "/app/common/custom/custrecordentry.nl",
-        "/app/crm/common/merge/emailtemplate.nl", "/app/site/hosting/scriptlet.nl"
-
-    ];
-
-    //A list of URLs where it's ok to initialize if we're in a child window
-    var childWindowPages = [
-        "/app/common/media/mediaitemfolders.nl"
-    ];
+    var pageInfo;
 
     //An array of special objects that can be used to set up exception scenarios, such as binding Ctrl+s to editors, etc
     var customPages = [
@@ -55,25 +40,6 @@
             }
         }
     ];
-
-
-
-    var initializeControlCharacters = function(){
-        SOH = String.fromCharCode(1);
-        STX = String.fromCharCode(2);
-        ENQ = String.fromCharCode(5);
-        ACK = String.fromCharCode(6);
-    };
-
-    var addGlobalStylesheet = function(css) {
-        var head, style;
-        head = document.getElementsByTagName('head')[0];
-        if (!head) { return; }
-        style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = css;
-        head.appendChild(style);
-    };
 
     var createCookie = function (name,value,days) {
         var date, expires;
@@ -102,7 +68,7 @@
     };
 
     //Takes the param string(? to #)
-    
+
     //Performs an AJAX call to clear the CDN Cache
     var clearCache = function(){
         nlapiServerCall("/app/site/setup/clearsitecache.nl", "clearResponseSiteCache", [pageInfo.userId, pageInfo.siteId]);
@@ -113,10 +79,7 @@
     This will set up links form the configured array
     */
     var setupLinks = function(){
-        var links = [
-            {label: "File Cabinet", path: "/app/common/media/mediaitemfolders.nl"},
-            {label: "Custom Record Types", path: "/app/common/custom/custrecords.nl"}
-        ];
+        var links = NSBSConfig.links;
 
         for(var i = 0, l = links.length; i < l; i++){
             var link = links[i];
@@ -173,7 +136,7 @@
     var generateLink = function(title, f, classes, appendToContainer){
         var href, $link;
         classes = classes || "";
-        appendToContainer = (appendToContainer === false) ? false : true;//Making it go from falsey to  true
+        appendToContainer = !(appendToContainer === false);//Making it go from falsey to boolean
         href = (typeof f === 'string') ? f : '#';
 
         $link = jQuery("<a href=\"" + href + "\" class=\"" + classes + "\">"+title+"</a>");
@@ -208,7 +171,7 @@
         }
 
         return lastNode;
-    }
+    };
 
 
     /*
@@ -262,7 +225,7 @@
             cellId = getParam('id', href.substring(href.indexOf('?')));
             if(type !== "Folder" && type !== ""){
                 //Generating the link
-                var $link = jQuery("<a class=\"direct-edit\" style=\"float:left;\" href=\"#" + cellId + "\">EditFile</a>");
+                $link = jQuery("<a class=\"direct-edit\" style=\"float:left;\" href=\"#" + cellId + "\">EditFile</a>");
 
                 $cell.parent().next().prepend($link);
             }//For Download As Zip functionality
@@ -976,8 +939,8 @@
 
         //If we're in a child window, loop through the list of validChildWindows
         if(window.self !== window.top){
-            for(i = 0, l = childWindowPages.length; i < l; i++){
-                if(window.location.pathname.indexOf(childWindowPages[i]) !== -1){
+            for(i = 0, l = NSBSConfig.childWindowPages.length; i < l; i++){
+                if(window.location.pathname.indexOf(NSBSConfig.childWindowPages[i]) !== -1){
                     isValidChild = true;
                     break;
                 }
@@ -988,8 +951,8 @@
         }
         ret = ret && isValidChild && !isCustom;
         //Checking the list of excluded pages.
-        for(i = 0, l = excludedPages.length; !isCustom && i < l; i++){
-            ret = ret && window.location.pathname.indexOf(excludedPages[i]) === -1;
+        for(i = 0, l = NSBSConfig.excludedPages.length; !isCustom && i < l; i++){
+            ret = ret && window.location.pathname.indexOf(NSBSConfig.excludedPages[i]) === -1;
         }
         console.log('isValidPage: ', ret);
         return ret;
