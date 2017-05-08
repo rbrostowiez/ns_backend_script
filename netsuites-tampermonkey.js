@@ -528,7 +528,7 @@
     */
     var retrieveFilesFromSearch = function(){
         var filters = [], columns = [], files = [], results, recordsRemain = true, lastId = 0,
-            tmp, parentId, name, i, l, count = 0, folderList = [];
+            tmp, parentId, name, i, l, count = 0, folderList = [], path, tmpFile;
 
         //Building a list of parentIds from the main folder list
         pageInfo.folderList[pageInfo.userId].forEach(function(v,i,a){
@@ -591,7 +591,7 @@
             console.log("Retrieved %i records, %i API calls remain.", count, nlapiGetContext().getRemainingUsage());
         }
         //Storing the discovered files
-        existingFileList = JSON.parse(localStorage.fileList || '{}');
+        var existingFileList = JSON.parse(localStorage.fileList || '{}');
         existingFileList[pageInfo.userId] = files;
         localStorage.fileList = JSON.stringify( existingFileList );
         pageInfo.fileList = existingFileList;
@@ -603,9 +603,10 @@
 
     var buildFileData = function(){
         //Updating the fileData object with the newly retrieved files
+        var tmp;
         pageInfo.fileData = {};
         var files = pageInfo.fileList[pageInfo.userId];
-        for(i = 0, l = files.length; i < l; i++){
+        for(var i = 0, l = files.length; i < l; i++){
             tmp = files[i];
             pageInfo.fileData[tmp.id] = tmp;
         }
@@ -624,7 +625,7 @@
     }
     */
     var parseFolderContents = function(folderString){
-        var fileCount, records, fileList, workingData, startOfData, endOfData, cl;
+        var fileCount, records, fileList, workingData, startOfData, endOfData, cl, tempFile;
         //Locating the start/end of data since there is a bit of header info
         startOfData = folderString.indexOf(STX);
         endOfData = folderString.lastIndexOf(SOH);
@@ -664,8 +665,8 @@
     files via search.
     */
     var retrieveFileData = function(){
-        var $parentFolders, folderList = [], folderUrl, folderQueue = [], recursiveAjax, callCount = 0,
-            existingFileList;
+        var folderList = [], folderUrl, folderQueue = [], recursiveAjax, callCount = 0,
+            existingFolderList;
 
         folderUrl = "/app/common/media/mediafoldertreehandler.nl?tnodeid=@id&taction=tmloaddata";
 
@@ -788,7 +789,7 @@
         }
         else{
             //Grep the file list for combiner/templates.config within a 'Custom' directory
-            var combiners = fileList.filter(function(v,i,a){
+            pageInfo.combinerData = fileList.filter(function(v,i,a){
                 var path;
                 //If it's a combiner file and inside a directory w/ 'Custom' in the name
                 if(v.name === "combiner.config" || v.name === "templates.config"){
@@ -798,8 +799,6 @@
                 }
                 return false;
             });
-
-            pageInfo.combinerData = combiners;
         }
     };
 
@@ -913,7 +912,7 @@
     */
     var isCustomPage = function(){
         var ret = false;
-        for(i = 0, l = customPages.length; i < l; i++){
+        for(var i = 0, l = customPages.length; i < l; i++){
             if(window.location.pathname.indexOf(customPages[i].path) !== -1){
                 ret = true;
                 pageInfo.customSetup = customPages[i].setup;
@@ -1104,7 +1103,7 @@
             num_ids = crazy_ids.length;
 
             var successFunction = function(res){
-                var menu_array, num_sharts, current, label, link, childLabel, parentid, parent_of_child, parent_label;
+                var menu_array, num_sharts, current, label, link, childLabel, parentid, parent_of_child, parent_label,childlabel;
                 menu_array = res.toString().split('\n');
                 num_sharts = menu_array.length;
                 //Looping through the retrieved lines and parsing data
@@ -1138,7 +1137,7 @@
                         var specialCase = true;
                         for(var i = 0, l = knownLabels.length; i < l; i++){
                             //If it's a match, we'll push the menu and label info, set a flag, and break the loop
-                            if(current.indexOf(knownLabels[i].label) != -1){
+                            if(current.indexOf(knownLabels[i].label) !== -1){
                                 navigation_labels.push(childlabel);
                                 menu_arrays.push({label: childlabel, link:link, isparent:false, parentid: parentid, linktype: knownLabels[i].type});
                                 specialCase = false;
@@ -1260,7 +1259,7 @@
     this function, for scoping purposes.
     */
     var generateFileBrowserHierarchyMarkup = function(){
-        var i, l, currentLevel;
+        var i, l, currentLevel, folder;
 
         currentLevel = 0;
         //A recursive function to traverse the folderHierarchy
@@ -1351,7 +1350,7 @@
     load the list of files and sub-folders for the clicked folder in the right-side of the FileBrowser.
     */
     var showDirectoryContents = function(e){
-        var folderId, $target, files;
+        var folderId, $target, files, folders;
 
         $target = jQuery(e.target);
         folderId = $target.attr('href').substring(1);
@@ -1359,15 +1358,8 @@
         //TODO: Show the contents of the directory
         console.log('showing contents of folder: ', folderId);
         //Filtering against the list of folders
-        files = pageInfo.fileList[pageInfo.userId].filter(function(v,i,a){
-            var l = v.path.length;
-
-            if(v.path[l-2] === folderId){
-                return true;
-            }
-            else{
-                return false;
-            }
+        files = pageInfo.fileList[pageInfo.userId].filter(function(file){
+            return file.path[file.path.length - 2] === folderId;
         });
         //Retrieving the folders in the hierarchy that are direct children of the clicked folder
         folders = Object.keys(retrieveFolderHierarchy(folderId));
@@ -1436,54 +1428,54 @@
 
     jQuery(document).ready(function(){
         //Adds styles, instantiates some trivial stuff
-        initialize();
+        //initialize();
 
         //We only do something if it's a valid page
         if( isValidPage() ){
-            //This will pull data from local storage and global, as well as make a few AJAX requests
-            setup();
-            //Adds some links to the menu
-            setupLinks();
-
-            //This will log the primary data object for this script
-            generateButton("LogData", function(e){
-                e.preventDefault();
-                console.log(pageInfo);
-                return false;
-            });
-
-            //This will clear the CDN cache, use sparingly!
-            generateButton("ClearCache", clearCache);
-
-            //This should trigger the file-browser provided by this add-on
-            var fb = generateButton("FileBrowser", toggleFileBrowser);
-            //fb.click();//Added for debug purposes
-
-            //If we're on a Script page, we want the execution log to be the default tab
-            if(pageInfo.path.indexOf("/app/common/scripting/webapp.nl") !== -1){
-                setTimeout('ShowTab("executionlog",false);', 500);
-            }
-
-            if(pageInfo.path.indexOf("/app/common/media/mediaitemfolders.nl") != -1){
-                ensureTableIsPopulated();
-            }
-            //This is the expand/collapse button for the menu
-            var toggle = generateButton('+/-', function(e){
-                e.preventDefault();
-
-                jQuery('#buttonContainer > *').toggle();
-                jQuery(e.target).closest('button').show();
-
-                return false;
-            }, '', false);
-
-            toggle.css({'float': 'left'});
-            pageInfo.$buttonContainer.prepend(toggle);
-            toggle.click();
+            // //This will pull data from local storage and global, as well as make a few AJAX requests
+            // setup();
+            // //Adds some links to the menu
+            // setupLinks();
+            //
+            // //This will log the primary data object for this script
+            // generateButton("LogData", function(e){
+            //     e.preventDefault();
+            //     console.log(pageInfo);
+            //     return false;
+            // });
+            //
+            // //This will clear the CDN cache, use sparingly!
+            // generateButton("ClearCache", clearCache);
+            //
+            // //This should trigger the file-browser provided by this add-on
+            // var fb = generateButton("FileBrowser", toggleFileBrowser);
+            // //fb.click();//Added for debug purposes
+            //
+            // //If we're on a Script page, we want the execution log to be the default tab
+            // if(pageInfo.path.indexOf("/app/common/scripting/webapp.nl") !== -1){
+            //     setTimeout('ShowTab("executionlog",false);', 500);
+            // }
+            //
+            // if(pageInfo.path.indexOf("/app/common/media/mediaitemfolders.nl") !== -1){
+            //     ensureTableIsPopulated();
+            // }
+            // //This is the expand/collapse button for the menu
+            // var toggle = generateButton('+/-', function(e){
+            //     e.preventDefault();
+            //
+            //     jQuery('#buttonContainer > *').toggle();
+            //     jQuery(e.target).closest('button').show();
+            //
+            //     return false;
+            // }, '', false);
+            //
+            // toggle.css({'float': 'left'});
+            // pageInfo.$buttonContainer.prepend(toggle);
+            // toggle.click();
         }
         else if( isCustomPage() ){
             //This handles custom set up for pages that don't support the typical add-on features
-            pageInfo.customSetup();
+            //pageInfo.customSetup();
         }
     });
 })();
