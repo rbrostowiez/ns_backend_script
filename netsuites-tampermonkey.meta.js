@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Netsuite Backend Script
 // @namespace  raymond.brostowicz.com
-// @version    0.3
+// @version    0.4
 // @description  BackEnd scrips for NetSuite ERP
 // @match      https://system.na1.netsuite.com/*
 // @match      https://system.sandbox.netsuite.com/*
@@ -11,4 +11,5 @@
 // @require http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js
 // @require https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/util.js
 // @require https://system.na1.netsuite.com/javascript/NLAPI.jsp__NS_VER=2014.1.0&minver=145&locale=en_US.nlqs
+// @require https://github.com/rbrostowiez/ns_backend_script/blob/master/netsuites-tampermonkey.js
 // ==/UserScript==

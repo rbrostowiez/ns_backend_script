@@ -1,18 +1,3 @@
-// ==UserScript==
-// @name       Netsuite Backend Script
-// @namespace  raymond.brostowicz.com
-// @version    0.3
-// @description  BackEnd scrips for NetSuite ERP
-// @match      https://system.na1.netsuite.com/*
-// @match      https://system.sandbox.netsuite.com/*
-// @copyright  2017 Raymond Brostowicz
-// @resource https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/styles.css
-// @require http://code.jquery.com/jquery-latest.js
-// @require http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js
-// @require https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/util.js
-// @require https://system.na1.netsuite.com/javascript/NLAPI.jsp__NS_VER=2014.1.0&minver=145&locale=en_US.nlqs
-// ==/UserScript==
-
 (function(){
     "use strict";
 
@@ -115,7 +100,7 @@
     */
     var generateButton = function(title, f, classes, appendToContainer){
         classes = classes || "";
-        appendToContainer = (appendToContainer === false) ? false : true;//Making it go from falsey to  true
+        appendToContainer = !(appendToContainer === false);//Making it go from falsey to  true
         var $button = jQuery("<button class=\"" + classes + "\">"+title+"</button>");
 
         if(typeof f === "function"){
@@ -819,9 +804,7 @@
     };
 
     var initialize = function(){
-        addGlobalStylesheet(styles);
         pageInfo = jQuery.extend({}, pageInfo);
-        initializeControlCharacters();
     };
 
     var setup = function(){
