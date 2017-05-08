@@ -2,7 +2,7 @@
  * Created by Ray on 5/8/2017.
  */
 
-var NSBSConfig = {
+NSBSConfig = {
     excludedPages: [
         "/pages/customerlogin.jsp", "/app/center/myroles.nl", "/app/setup/adminmessage.nl",
         "/app/common/record/edittextmediaitem.nl", "/app/help/helpcenter.nl", "/app/help/nshelp.nl",
