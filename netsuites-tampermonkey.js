@@ -8,7 +8,7 @@
 // @copyright  2017 Raymond Brostowicz
 // @updateURL https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/netsuites-tampermonkey.js
 // @downloadURL https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/netsuites-tampermonkey.js
-// @require https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/styles.css
+// @resource https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/styles.css
 // @require http://code.jquery.com/jquery-latest.js
 // @require http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js
 // @require https://raw.githubusercontent.com/rbrostowiez/ns_backend_script/master/util.js
