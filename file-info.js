@@ -57,19 +57,17 @@ NSBSFileInfo = (function(){
         if(fileList === null || !fileList.hasOwnProperty(pageInfo.userId)){
             retrieveFileData();
         }
-        else{
-            //Grep the file list for combiner/templates.config within a 'Custom' directory
-            pageInfo.combinerData = fileList[pageInfo.userId].filter(function(v,i,a){
-                var path;
-                //If it's a combiner file and inside a directory w/ 'Custom' in the name
-                if(v.name === "combiner.config" || v.name === "templates.config"){
-                    path = renderFilePathById(v.id);
+        //Grep the file list for combiner/templates.config within a 'Custom' directory
+        pageInfo.combinerData = fileList[pageInfo.userId].filter(function(v,i,a){
+            var path;
+            //If it's a combiner file and inside a directory w/ 'Custom' in the name
+            if(v.name === "combiner.config" || v.name === "templates.config"){
+                path = renderFilePathById(v.id);
 
-                    return path.indexOf('Custom') !== -1;
-                }
-                return false;
-            });
-        }
+                return path.indexOf('Custom') !== -1;
+            }
+            return false;
+        });
     }
 
     /*
@@ -78,7 +76,7 @@ NSBSFileInfo = (function(){
     function retrieveCombinerFiles(){
         var combinerData = JSON.parse(localStorage.combinerData ? localStorage.combinerData : 'null');
         //If we have a localstorage that's incomplete for our siteId
-        if(combinerData === null || combinerData[pageInfo.userId] === null){
+        if(combinerData === null){
             fetchCombinerData();
         }//Else we have combinerFile data, and an entry for our siteId
         else{
