@@ -153,6 +153,7 @@
 
         $table.on("click", ".direct-edit", null, function(e){
             var $target = jQuery(e.target);
+            var window = {doPageLogging: false};
             nlOpenWindow("/app/common/record/edittextmediaitem.nl?id="+ $target.attr("href").substring(1) +"&e=T&l=T&target=filesize", "edittextmediaitem34815", 800, 600);
             return false;
         });
@@ -239,8 +240,6 @@
                 e.stopPropagation();
 
                 var $target = jQuery(e.target);
-
-                var window = {doPageLogging: false};
 
                 nlOpenWindow("/app/common/record/edittextmediaitem.nl?id="+ $target.attr("href").substring(1) +"&e=T&l=T&target=filesize", "edittextmediaitem34815", 800, 600);
 
