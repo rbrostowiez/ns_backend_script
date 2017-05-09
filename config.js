@@ -7,6 +7,7 @@ pageInfo = {};
 var stylesheet = GM_getResourceText('stylesheet');
 GM_addStyle(stylesheet);
 
+window.doPageLogging = false;
 
 NSBSConfig = {
     excludedPages: [
