@@ -26,6 +26,11 @@ var NSBSUtil = (function(jQuery){
         },
         eraseCookie: function (name) {
             createCookie(name,"",-1);
+        },
+        //Performs an AJAX call to clear the CDN Cache
+        clearCache: function(){
+            nlapiServerCall("/app/site/setup/clearsitecache.nl", "clearResponseSiteCache", [pageInfo.userId, pageInfo.siteId]);
+            alert("Call has been sent for siteId: " + pageInfo.siteId + "!");
         }
     }
 })(jQuery);

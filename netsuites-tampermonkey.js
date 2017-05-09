@@ -3,16 +3,6 @@
 
     var pageInfo;
 
-
-
-    //Takes the param string(? to #)
-
-    //Performs an AJAX call to clear the CDN Cache
-    var clearCache = function(){
-        nlapiServerCall("/app/site/setup/clearsitecache.nl", "clearResponseSiteCache", [pageInfo.userId, pageInfo.siteId]);
-        alert("Call has been sent for siteId: " + pageInfo.siteId + "!");
-    };
-
     /*
     This will set up links form the configured array
     */
@@ -185,110 +175,7 @@
         $table.on('click', '.download-as-zip', downloadAsZip);
     };
 
-    /*
-    This function takes an optional query parameter(in the format: ?param1=val&param2=val2), and parses the
-    parameter keys and values into a JSON object.  If the query isn't provided, it will use the value of
-    window.search.
-    */
-    var getParams = function(query){
-        var paramList, params = {};
-        query = query || pageInfo.query;
-        //If the query is non-zero and starts w/ a '?'
-        if(query.length > 0 && query.indexOf('?') === 0){
-            paramList = query.substring(1).split("&");//Splitting into key/value pairs w/ '=' between them
 
-            for(var i = 0, l = paramList.length; i< l; i++){
-                var kv = paramList[i].split('=');
-                params[kv[0]] = kv[1];
-            }
-        }
-
-        return params;
-    };
-
-    /*
-    This is called by retrieveSiteId to perform an ajax call if the siteId isn't stored in a cookie.
-    It will also set the pageInfo.siteId value, since that is normally called in the initialize function.
-    */
-    var fetchSiteId = function(){
-        jQuery.ajax({
-            url: "https://" + pageInfo.domain + "/app/site/setup/sitelist.nl?sitetype=ADVANCED&whence=",
-            success:function(data){
-                var href = jQuery("#row0 td:eq(0) a", data).attr("href");
-                var siteId = getParam("id" , href.substring(href.indexOf("?")));
-                NSBSUtil.createCookie("siteId", siteId);
-                retrieveSiteId();
-            }
-        });
-    };
-
-    /*
-    This will attempt to retreive the siteId from knownSiteIds cookie, and if not present, will trigger
-    the retrieval of the siteId and return null.
-    */
-    var retrieveSiteId = function(){
-        var knownSiteIds = JSON.parse(NSBSUtil.readCookie('knownSiteIds'));
-        //If the cookie is null or if it doesn't contain the current userId
-        if(knownSiteIds === null || !knownSiteIds.hasOwnProperty(pageInfo.userId)){
-            var currentSiteId = NSBSUtil.readCookie('siteId');
-            knownSiteIds = knownSiteIds || {};
-            //If the current siteId cookie is present, then the ajax call is re-calling retrieveSiteId
-            if(currentSiteId){
-                knownSiteIds[pageInfo.userId] = currentSiteId;
-                pageInfo.siteId = currentSiteId;
-                NSBSUtil.createCookie('knownSiteIds', JSON.stringify(knownSiteIds));
-                NSBSUtil.eraseCookie('siteId');
-            }
-            else{
-                fetchSiteId();
-            }
-        }
-
-        return (knownSiteIds && knownSiteIds.hasOwnProperty(pageInfo.userId)) ? knownSiteIds[pageInfo.userId] : null ;
-    };
-
-    var fetchSspIds = function(){
-        jQuery.ajax({
-            url: "https://" + pageInfo.domain + "/app/common/scripting/webapplist.nl?whence=",
-            success:function(data){
-                var nameIndex = 1 + jQuery('#div__labtab td:contains(Name)', data).index();
-                var $links = jQuery("#div__bodytab tr td:nth-child(" + nameIndex + ") a:contains(Custom)", data);
-                var sspIds = [];
-
-                for(var i = 0, l = $links.length; i < l; i++){
-                    var $link = $links.eq(i);
-                    var href = $link.attr('href');
-                    href = href.substring(href.indexOf("?"));
-                    sspIds.push({
-                        name: $link.text().trim(),
-                        id: getParam("id" , href)
-                    });
-                }
-
-                NSBSUtil.createCookie("sspIds", JSON.stringify(sspIds));
-                retrieveSspIds();
-            }
-        });
-    };
-
-    var retrieveSspIds = function(){
-        var knownSspIds = JSON.parse(NSBSUtil.readCookie('knownSspIds'));
-        if(knownSspIds === null || !knownSspIds.hasOwnProperty(pageInfo.userId)){
-            var currentSspIds = JSON.parse(NSBSUtil.readCookie('sspIds'));
-            knownSspIds = knownSspIds || {};
-            if(currentSspIds !== null){
-                knownSspIds[pageInfo.userId] = currentSspIds;
-                pageInfo.sspIds = currentSspIds;
-                NSBSUtil.createCookie('knownSspIds', JSON.stringify(knownSspIds));
-                NSBSUtil.eraseCookie('sspIds');
-            }
-            else{
-                fetchSspIds();
-            }
-        }
-
-        return (knownSspIds && knownSspIds.hasOwnProperty(pageInfo.userId)) ? knownSspIds[pageInfo.userId] : null;
-    };
 
     var showSspLinks = function(e){
         e.stopPropagation();
@@ -387,7 +274,7 @@
             //This will retrieve the search container
             var addDirectEditLinks = function(){
                 var i, l, href, $item, $link, $editLink;
-                var $results = NS.jQuery('#uir-global-search-container > li');
+                var $results = jQuery('#uir-global-search-container > li');
                 //Looping through the results to inject the DirectEdit link, if needed
                 for(i = 0, l = $results.length; i < l; i++){
                     $item = $results.eq(i);
@@ -407,7 +294,7 @@
 
                 }
                 //This needs to be bound everytime the tooltip is instantiated.
-                NS.jQuery('#uir-global-search-container').on('click', '.edit-link', function(e){
+                jQuery('#uir-global-search-container').on('click', '.edit-link', function(e){
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -418,7 +305,7 @@
                 });
             };
             //Adding a prefilter to wrap the success function of AJAX calls to the /../autosuggest.nl endpoint
-            NS.jQuery.ajaxPrefilter(function(options, originalOptions, jqXhr){
+            jQuery.ajaxPrefilter(function(options, originalOptions, jqXhr){
                 if(options.url.indexOf("/app/common/autosuggest.nl?cur_val=") !== -1){
                     //Storing the success function in a locally scoped object to be used in the success
                     jqXhr.id = Math.floor(Math.random() * 1000000000);
@@ -716,67 +603,11 @@
         }
     };
 
-    /*
-    This will ensure the fileList is present, and if not, will trigger it to be loaded.
-    */
-    var fetchCombinerData = function(){
-        //Fetching the DocumentBrowserPage, and parsing the top-level folders
-        var fileList = JSON.parse((localStorage.fileList) ? localStorage.fileList : '');
-        if(fileList === null){
-            retrieveFileData();
-        }
-        else{
-            //Grep the file list for combiner/templates.config within a 'Custom' directory
-            pageInfo.combinerData = fileList.filter(function(v,i,a){
-                var path;
-                //If it's a combiner file and inside a directory w/ 'Custom' in the name
-                if(v.name === "combiner.config" || v.name === "templates.config"){
-                    path = renderFilePathById(v.id);
-
-                    return path.indexOf('Custom') !== -1;
-                }
-                return false;
-            });
-        }
-    };
-
-    /*
-    This will load the combinerFile data from localStorage, and if not loaded, will trigger the data to be loaded.
-    */
-    var retrieveCombinerFiles = function(){
-        var combinerData = JSON.parse(localStorage.combinerData);
-        //If we have a localstorage that's incomplete for our siteId
-        if(combinerData === null || combinerData[pageInfo.siteId] === null){
-            fetchCombinerData();
-        }//Else we have combinerFile data, and an entry for our siteId
-        else{
-            var siteCombiners = combinerData[siteId];
-
-            //TODO: Render the links
-        }
-    };
-
-    var initialize = function(){
-        pageInfo = jQuery.extend({}, pageInfo);
-    };
-
     var setup = function(){
-        //Just grabbing the URL info in a nice, usable format
-        pageInfo.domain = window.location.hostname;
-        pageInfo.path = window.location.pathname;
-        pageInfo.query = window.location.search;
-        pageInfo.params = getParams();
-        //This userId refers to the 'client id' for netsuite.
-        pageInfo.userId = NSBSUtil.readCookie("lastUser").split("_")[0];
-        //Will perform an ajax call if it has never been loaded
-        pageInfo.siteId = retrieveSiteId();
-        pageInfo.sspIds = retrieveSspIds();
+        pageInfo = pageInfo.getPageInfo();
+
         //This will assign fileList itself, since it may require ajax calls
         fetchOrRetrieveFileData();
-        //pageInfo.combinerFiles = retrieveCombinerFiles();
-        //Creating the button container
-        pageInfo.$buttonContainer = createButtonContainer();
-        pageInfo.$linkContainer = createLinkContainer();
 
         if(jQuery.isArray(pageInfo.sspIds)){
             renderSspLinks();
@@ -868,8 +699,8 @@
     var isValidPage = function(){
         var ret = true, isValidChild = false, isCustom = false, i,l;
         //Iterating over the custom pages
-        for(i = 0, l = customPages.length; i < l; i++){
-            isCustom = isCustom || window.location.pathname.indexOf(customPages[i].path) !== -1;
+        for(i = 0, l = NSBSConfig.customPages.length; i < l; i++){
+            isCustom = isCustom || window.location.pathname.indexOf(NSBSConfig.customPages[i].path) !== -1;
         }
 
         //If we're in a child window, loop through the list of validChildWindows
@@ -1363,51 +1194,48 @@
     };
 
     jQuery(document).ready(function(){
-        //Adds styles, instantiates some trivial stuff
-        //initialize();
-
         //We only do something if it's a valid page
         if( isValidPage() ){
-            // //This will pull data from local storage and global, as well as make a few AJAX requests
-            // setup();
-            // //Adds some links to the menu
-            // setupLinks();
-            //
-            // //This will log the primary data object for this script
-            // generateButton("LogData", function(e){
-            //     e.preventDefault();
-            //     console.log(pageInfo);
-            //     return false;
-            // });
-            //
-            // //This will clear the CDN cache, use sparingly!
-            // generateButton("ClearCache", clearCache);
-            //
-            // //This should trigger the file-browser provided by this add-on
-            // var fb = generateButton("FileBrowser", toggleFileBrowser);
-            // //fb.click();//Added for debug purposes
-            //
-            // //If we're on a Script page, we want the execution log to be the default tab
-            // if(pageInfo.path.indexOf("/app/common/scripting/webapp.nl") !== -1){
-            //     setTimeout('ShowTab("executionlog",false);', 500);
-            // }
-            //
-            // if(pageInfo.path.indexOf("/app/common/media/mediaitemfolders.nl") !== -1){
-            //     ensureTableIsPopulated();
-            // }
-            // //This is the expand/collapse button for the menu
-            // var toggle = generateButton('+/-', function(e){
-            //     e.preventDefault();
-            //
-            //     jQuery('#buttonContainer > *').toggle();
-            //     jQuery(e.target).closest('button').show();
-            //
-            //     return false;
-            // }, '', false);
-            //
-            // toggle.css({'float': 'left'});
-            // pageInfo.$buttonContainer.prepend(toggle);
-            // toggle.click();
+            //This will pull data from local storage and global, as well as make a few AJAX requests
+            setup();
+            //Adds some links to the menu
+            setupLinks();
+
+            //This will log the primary data object for this script
+            generateButton("LogData", function(e){
+                e.preventDefault();
+                console.log(pageInfo);
+                return false;
+            });
+
+            //This will clear the CDN cache, use sparingly!
+            generateButton("ClearCache", clearCache);
+
+            //This should trigger the file-browser provided by this add-on
+            var fb = generateButton("FileBrowser", toggleFileBrowser);
+            //fb.click();//Added for debug purposes
+
+            //If we're on a Script page, we want the execution log to be the default tab
+            if(pageInfo.path.indexOf("/app/common/scripting/webapp.nl") !== -1){
+                setTimeout('ShowTab("executionlog",false);', 500);
+            }
+
+            if(pageInfo.path.indexOf("/app/common/media/mediaitemfolders.nl") !== -1){
+                ensureTableIsPopulated();
+            }
+            //This is the expand/collapse button for the menu
+            var toggle = generateButton('+/-', function(e){
+                e.preventDefault();
+
+                jQuery('#buttonContainer > *').toggle();
+                jQuery(e.target).closest('button').show();
+
+                return false;
+            }, '', false);
+
+            toggle.css({'float': 'left'});
+            pageInfo.$buttonContainer.prepend(toggle);
+            toggle.click();
         }
         else if( isCustomPage() ){
             //This handles custom set up for pages that don't support the typical add-on features
