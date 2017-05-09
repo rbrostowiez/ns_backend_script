@@ -911,7 +911,7 @@
             });
 
             //This will clear the CDN cache, use sparingly!
-            generateButton("ClearCache", clearCache);
+            generateButton("ClearCache", NSBSUtil.clearCache);
 
             //This should trigger the file-browser provided by this add-on
             var fb = generateButton("FileBrowser", toggleFileBrowser);

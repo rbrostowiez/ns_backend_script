@@ -4,6 +4,10 @@
 
 pageInfo = {};
 
+var stylesheet = GM_getResourceText('stylesheet');
+GM_addStyle(stylesheet);
+
+
 NSBSConfig = {
     excludedPages: [
         "/pages/customerlogin.jsp", "/app/center/myroles.nl", "/app/setup/adminmessage.nl",

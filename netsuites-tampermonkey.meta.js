@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name       Netsuite Backend Script
 // @namespace  raymond.brostowicz.com
-// @version    0.34
+// @version    0.35
 // @description  BackEnd scrips for NetSuite ERP
 // @match      https://system.na1.netsuite.com/*
 // @match      https://system.sandbox.netsuite.com/*
 // @copyright  2017 Raymond Brostowicz
-// @resource http://nsbs.brostowicz.com/styles.css
+// @resource stylesheet http://nsbs.brostowicz.com/styles.css
 // @require http://nsbs.brostowicz.com/config.js
 // @require http://nsbs.brostowicz.com/custom-pages.js
 // @require http://nsbs.brostowicz.com/util.js
