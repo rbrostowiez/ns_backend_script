@@ -74,6 +74,8 @@ NSBSPageInfo = (function(){
 
         jQuery("body").append($container);
 
+        $buttonContainer = $container;
+
         return $container;
     }
 
