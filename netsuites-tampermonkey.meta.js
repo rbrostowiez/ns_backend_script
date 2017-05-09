@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Netsuite Backend Script
 // @namespace  raymond.brostowicz.com
-// @version    0.28
+// @version    0.29
 // @description  BackEnd scrips for NetSuite ERP
 // @match      https://system.na1.netsuite.com/*
 // @match      https://system.sandbox.netsuite.com/*

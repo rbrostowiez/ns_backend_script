@@ -55,7 +55,7 @@ NSBSFileInfo = (function(){
         //Fetching the DocumentBrowserPage, and parsing the top-level folders
         var fileList = JSON.parse(localStorage.fileList ? localStorage.fileList : 'null');
         if(fileList === null || !fileList.hasOwnProperty(pageInfo.userId)){
-            retrieveFileData(fetchCombinerData);
+            fetchOrRetrieveFileData(fetchCombinerData);
         }
         else{
             //Grep the file list for combiner/templates.config within a 'Custom' directory
@@ -358,21 +358,23 @@ NSBSFileInfo = (function(){
      This function will check local storage and set off a chain of AJAX calls to parse the file hierarchy.  It
      will only fire the fetch for file data once; it will need to be manually updated after that.
      */
-    function fetchOrRetrieveFileData(){
+    function fetchOrRetrieveFileData(callback){
         var folderList = JSON.parse(localStorage.folderList || 'false');
         var fileList = JSON.parse(localStorage.fileList || 'false');
 
         if( !folderList || !fileList || !folderList.hasOwnProperty(pageInfo.userId) || !fileList.hasOwnProperty(pageInfo.userId) ){
             console.log('FileList or FolderList not found for siteId, parsed: folder: ', folderList, ', file: ', fileList);
-            retrieveFileData();
+            retrieveFileData(callback);
         }
         else{
-            //Assigining the loaded file/folder data into the pageInfo object
+            //Assigning the loaded file/folder data into the pageInfo object
             pageInfo.folderList = folderList;
             pageInfo.fileList = fileList;
             //Building a JSON object w/ the IDs of each as keys(for quick lookups)
             buildFolderData();
             buildFileData();
+
+            callback();
         }
     }
 
