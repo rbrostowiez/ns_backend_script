@@ -702,7 +702,6 @@
         for(i = 0, l = NSBSConfig.customPages.length; i < l; i++){
             isCustom = isCustom || window.location.pathname.indexOf(NSBSConfig.customPages[i].path) !== -1;
         }
-
         //If we're in a child window, loop through the list of validChildWindows
         if(window.self !== window.top){
             for(i = 0, l = NSBSConfig.childWindowPages.length; i < l; i++){

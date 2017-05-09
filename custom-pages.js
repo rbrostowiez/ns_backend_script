@@ -5,7 +5,7 @@
 NSBSConfig = NSBSConfig || {};
 
 //An array of special objects that can be used to set up exception scenarios, such as binding Ctrl+s to editors, etc
-NSBSConfig.customPage = [
+NSBSConfig.customPages = [
     {
         path: "/app/common/record/edittextmediaitem.nl",
         /*
