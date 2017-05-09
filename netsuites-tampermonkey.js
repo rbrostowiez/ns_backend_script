@@ -1,8 +1,6 @@
 (function(NSBSConfig){
     "use strict";
 
-    var pageInfo;
-
     /*
     This will set up links form the configured array
     */

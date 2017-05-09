@@ -89,21 +89,37 @@ var NSBSPageInfo = (function(){
         getParams: getParams,
         getPageInfo: function(){
             //Just grabbing the URL info in a nice, usable format
-            return {
+            pageInfo = jQuery.extend(pageInfo, {
                 domain: window.location.hostname,
                 path: window.location.pathname,
                 query: window.location.search,
-                params: getParams(),
-                //This userId refers to the 'client id' for netsuite.
-                userId: NSBSUtil.readCookie("lastUser").split("_")[0],
-                //Will perform an ajax call if it has never been loaded
-                siteId: retrieveSiteId(),
-                sspIds: NSBSFileInfo.retrieveSspIds(),
-                combinerFiles: NSBSFileInfo.retrieveCombinerFiles(),
-                //Creating the button container
-                $buttonContainer: createButtonContainer(),
-                $linkContainer: createLinkContainer()
+                params: getParams()
+            });
+            //This userId refers to the 'client id' for netsuite.
+            if(!pageInfo.hasOwnProperty('userId') && !pageInfo.userId){
+                pageInfo.userId = NSBSUtil.readCookie("lastUser").split("_")[0];
             }
+            //Will perform an ajax call if it has never been loaded
+            if(!pageInfo.hasOwnProperty('siteId') && !pageInfo.siteId) {
+                pageInfo.siteId =  retrieveSiteId();
+            }
+
+            if(!pageInfo.hasOwnProperty('sspIds') && !pageInfo.sspIds){
+                pageInfo.sspIds = NSBSFileInfo.retrieveSspIds();
+            }
+
+            if(!pageInfo.hasOwnProperty('combinerFiles') && !pageInfo.combinerFiles){
+                pageInfo.combinerFiles = NSBSFileInfo.retrieveCombinerFiles();
+            }
+            //Creating the button container
+            if(!pageInfo.hasOwnProperty('$buttonContainer') && !pageInfo.$buttonContainer){
+                pageInfo.$buttonContainer = createButtonContainer()
+            }
+            if(!pageInfo.hasOwnProperty('$linkContainer') && !pageInfo.$linkContainer){
+                pageInfo.$linkContainer = createLinkContainer();
+            }
+
+            return pageInfo;
         }
     };
 })();
