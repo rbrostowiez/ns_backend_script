@@ -239,71 +239,65 @@
     section.  It will add a direct edit link to search result items that link into the the file records pages.
     */
     var setupAndHijackSearchBar = function(){
-        //Checking if we're on the new backend
-        if(typeof globalSearch === 'function'){
-            //A system of catching callbacks to be used on the other end of a setTimeout and AJAX call
-            var callbacks = {};
-            var wrappedSuccess = function(data, status, jqXhr){
-                var callback = callbacks[jqXhr.id];
-                try{
-                    callback.call(this, data, status, jqXhr);
-                }
-                catch(e){
-                    console.log('callback threw error');
-                    console.error(e);
-                }
+        //A system of catching callbacks to be used on the other end of a setTimeout and AJAX call
+        var callbacks = {};
+        var wrappedSuccess = function(data, status, jqXhr){
+            var callback = callbacks[jqXhr.id];
+            try{
+                callback.call(this, data, status, jqXhr);
+            }
+            catch(e){
+                console.log('callback threw error');
+                console.error(e);
+            }
 
-                //Adding the links
-                addDirectEditLinks();
-            };
-            //This will retrieve the search container
-            var addDirectEditLinks = function(){
-                var i, l, href, $item, $link, $editLink;
-                var $results = jQuery('#uir-global-search-container > li');
-                //Looping through the results to inject the DirectEdit link, if needed
-                for(i = 0, l = $results.length; i < l; i++){
-                    $item = $results.eq(i);
-                    $item.css({'position': 'relative'});//Adding relative for the DirectEdit link
-                    $link = $item.find('a:first');
-                    if($link.length > 0){
-                        href = $link.attr('href');
-                        //We only want to add a directEdit link if it's linking to a mediaItem(file)
-                        if(href.indexOf('/app/common/media/mediaitem.nl') !== -1){
-                            href = href.substring(href.indexOf('?'));
-                            $editLink  = generateLink('DirectEdit', '#'+ NSBSPageInfo.getParam('id', href), 'edit-link', false);
-                            $editLink.attr('title', renderFilePathById(NSBSPageInfo.getParam('id', href)));
-                            //Appending to the LI
-                            $item.find('a:last').before($editLink);
-                        }
+            //Adding the links
+            addDirectEditLinks();
+        };
+        //This will retrieve the search container
+        var addDirectEditLinks = function(){
+            var i, l, href, $item, $link, $editLink;
+            var $results = jQuery('#uir-global-search-container > li');
+            //Looping through the results to inject the DirectEdit link, if needed
+            for(i = 0, l = $results.length; i < l; i++){
+                $item = $results.eq(i);
+                $item.css({'position': 'relative'});//Adding relative for the DirectEdit link
+                $link = $item.find('a:first');
+                if($link.length > 0){
+                    href = $link.attr('href');
+                    //We only want to add a directEdit link if it's linking to a mediaItem(file)
+                    if(href.indexOf('/app/common/media/mediaitem.nl') !== -1){
+                        href = href.substring(href.indexOf('?'));
+                        $editLink  = generateLink('DirectEdit', '#'+ NSBSPageInfo.getParam('id', href), 'edit-link', false);
+                        $editLink.attr('title', renderFilePathById(NSBSPageInfo.getParam('id', href)));
+                        //Appending to the LI
+                        $item.find('a:last').before($editLink);
                     }
                 }
-                //This needs to be bound everytime the tooltip is instantiated.
-                jQuery('#uir-global-search-container').on('click', '.edit-link', function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
+            }
+            //This needs to be bound everytime the tooltip is instantiated.
+            jQuery('#uir-global-search-container').on('click', '.edit-link', function(e){
+                e.preventDefault();
+                e.stopPropagation();
 
-                    var $target = jQuery(e.target);
-                    nlOpenWindow("/app/common/record/edittextmediaitem.nl?id="+ $target.attr("href").substring(1) +"&e=T&l=T&target=filesize", "edittextmediaitem34815", 800, 600);
+                var $target = jQuery(e.target);
+                nlOpenWindow("/app/common/record/edittextmediaitem.nl?id="+ $target.attr("href").substring(1) +"&e=T&l=T&target=filesize", "edittextmediaitem34815", 800, 600);
 
-                    return false;
-                });
-            };
-            //Adding a prefilter to wrap the success function of AJAX calls to the /../autosuggest.nl endpoint
-            jQuery.ajaxPrefilter(function(options, originalOptions, jqXhr){
-                console.log(options);
-
-                if(options.url.indexOf("/app/common/autosuggest.nl?cur_val=") !== -1){
-                    console.log('search query, wrapping succes function');
-                    //Storing the success function in a locally scoped object to be used in the success
-                    jqXhr.id = Math.floor(Math.random() * 1000000000);
-                    callbacks[jqXhr.id] = originalOptions.success;
-                    options.success = wrappedSuccess;
-                }
+                return false;
             });
-        }
-        else{
-            oldSetupAndHijackSearchBar();
-        }
+        };
+        //Adding a prefilter to wrap the success function of AJAX calls to the /../autosuggest.nl endpoint
+        jQuery.ajaxPrefilter(function(options, originalOptions, jqXhr){
+            console.log(options);
+
+            if(options.url.indexOf("/app/common/autosuggest.nl?cur_val=") !== -1){
+                console.log('search query, wrapping succes function');
+                //Storing the success function in a locally scoped object to be used in the success
+                jqXhr.id = Math.floor(Math.random() * 1000000000);
+                callbacks[jqXhr.id] = originalOptions.success;
+                options.success = wrappedSuccess;
+            }
+        });
     };
 
 
@@ -323,6 +317,7 @@
 
         setupFileLinks();
 
+        console.log(globalSearch);
         setupAndHijackSearchBar();
         setupQuickNav();
     };
