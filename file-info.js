@@ -364,9 +364,13 @@ NSBSFileInfo = (function(){
 
         if( !folderList || !fileList || !folderList.hasOwnProperty(pageInfo.userId) || !fileList.hasOwnProperty(pageInfo.userId) ){
             console.log('FileList or FolderList not found for siteId, parsed: folder: ', folderList, ', file: ', fileList);
-
-            if(confirm('There is no file Data present, and it is being requested, grab file data?')){
+            //Check if we're going to load data
+            if(readCookie('skippedFileData') === 'true' || confirm('There is no file Data present, and it is being requested, grab file data?')){
                 retrieveFileData(fetchOrRetrieveFileData.bind(this, callback));
+                NSBSUtil.eraseCookie('skippedFileData');
+            }
+            else{
+                NSBSUtil.createCookie('skippedFileData', 'true', 1);
             }
         }
         else{
