@@ -18,7 +18,7 @@ NSBSFileInfo = (function(){
                     href = href.substring(href.indexOf("?"));
                     sspIds.push({
                         name: $link.text().trim(),
-                        id: getParam("id" , href)
+                        id: NSBSPageInfo.getParam("id" , href)
                     });
                 }
 

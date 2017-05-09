@@ -135,7 +135,7 @@
             $cell = $editLinks.eq(i);
             type = jQuery.trim($cell.parents('tr').eq(0).find(typeSelector).text());
             href = $cell.attr('href');
-            cellId = getParam('id', href.substring(href.indexOf('?')));
+            cellId = NSBSPageInfo.getParam('id', href.substring(href.indexOf('?')));
             if(type !== "Folder" && type !== ""){
                 //Generating the link
                 $link = jQuery("<a class=\"direct-edit\" style=\"float:left;\" href=\"#" + cellId + "\">EditFile</a>");
@@ -215,8 +215,8 @@
 
                     href = href.substring(href.indexOf('?'));
                     $cell.css('position', 'relative');
-                    $editLink  = generateLink('DirectEdit', '#'+ getParam('id', href), 'edit-link', false);
-                    $editLink.attr('title', renderFilePathById(getParam('id', href)));
+                    $editLink  = generateLink('DirectEdit', '#'+ NSBSPageInfo.getParam('id', href), 'edit-link', false);
+                    $editLink.attr('title', renderFilePathById(NSBSPageInfo.getParam('id', href)));
                     $cell.append($editLink);
                 }
             }
@@ -270,8 +270,8 @@
                         //We only want to add a directEdit link if it's linking to a mediaItem(file)
                         if(href.indexOf('/app/common/media/mediaitem.nl') !== -1){
                             href = href.substring(href.indexOf('?'));
-                            $editLink  = generateLink('DirectEdit', '#'+ getParam('id', href), 'edit-link', false);
-                            $editLink.attr('title', renderFilePathById(getParam('id', href)));
+                            $editLink  = generateLink('DirectEdit', '#'+ NSBSPageInfo.getParam('id', href), 'edit-link', false);
+                            $editLink.attr('title', renderFilePathById(NSBSPageInfo.getParam('id', href)));
                             //Appending to the LI
                             $item.find('a:last').before($editLink);
                         }
@@ -313,7 +313,7 @@
         NSBSFileInfo.fetchOrRetrieveFileData();
 
         if(jQuery.isArray(pageInfo.sspIds)){
-            renderSspLinks();
+            NSBSFileInfo.renderSspLinks();
         }
         else{
             setTimeout(renderSspLinks, 250);
@@ -366,7 +366,7 @@
             $item = $links.eq(i);
             href = $item.attr('href');
             if(href && (href.indexOf('mediaitem.nl') !== -1 || href.indexOf('media.nl') !== -1) ){
-                id = getParam('id', href.substring(href.indexOf('?')));
+                id = NSBSPageInfo.getParam('id', href.substring(href.indexOf('?')));
                 path = renderFilePathById(id);
 
                 $item.addClass('added-path');
@@ -565,7 +565,7 @@
             var crazy_ids = [], num_ids, menu_arrays = [], navigation_labels = [], parents = [];
             jQuery('.ddmSpan a').each(function(){
                 var href = jQuery(this).attr('href');
-                var crazy_id = getParam("sc" , href.substring(href.indexOf("?")));
+                var crazy_id = NSBSPageInfo.getParam("sc" , href.substring(href.indexOf("?")));
                 crazy_ids.push(crazy_id);
             });
 

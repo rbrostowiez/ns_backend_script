@@ -27,6 +27,19 @@ NSBSPageInfo = (function(){
         return params;
     }
 
+    //Takes the param string(? to #)
+    function getParam(name, query){
+        query = query || location.search;
+        var p = query.substring(1).split("&");
+        for(var i = 0, l = p.length; i<l; i++){
+            var pVal = p[i].split("=");
+            if(pVal[0] === name){
+                return pVal[1];
+            }
+        }
+        return null;
+    }
+
     /*
      This is called by retrieveSiteId to perform an ajax call if the siteId isn't stored in a cookie.
      It will also set the pageInfo.siteId value, since that is normally called in the initialize function.
@@ -89,6 +102,7 @@ NSBSPageInfo = (function(){
 
     return {
         getParams: getParams,
+        getParam: getParam,
         getPageInfo: function(){
             //Just grabbing the URL info in a nice, usable format
             pageInfo = jQuery.extend(pageInfo, {
