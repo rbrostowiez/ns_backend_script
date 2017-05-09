@@ -313,7 +313,7 @@
         NSBSFileInfo.fetchOrRetrieveFileData();
 
         if(jQuery.isArray(pageInfo.sspIds)){
-            NSBSFileInfo.renderSspLinks();
+            renderSspLinks();
         }
         else{
             setTimeout(renderSspLinks, 250);
