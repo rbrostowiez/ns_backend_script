@@ -290,6 +290,8 @@
             };
             //Adding a prefilter to wrap the success function of AJAX calls to the /../autosuggest.nl endpoint
             jQuery.ajaxPrefilter(function(options, originalOptions, jqXhr){
+                console.log(options);
+
                 if(options.url.indexOf("/app/common/autosuggest.nl?cur_val=") !== -1){
                     console.log('search query, wrapping succes function');
                     //Storing the success function in a locally scoped object to be used in the success
