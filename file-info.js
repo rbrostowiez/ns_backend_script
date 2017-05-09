@@ -53,7 +53,7 @@ NSBSFileInfo = (function(){
      */
     function fetchCombinerData(){
         //Fetching the DocumentBrowserPage, and parsing the top-level folders
-        var fileList = JSON.parse((localStorage.fileList) ? localStorage.fileList : '');
+        var fileList = JSON.parse(localStorage.fileList ? localStorage.fileList : 'null');
         if(fileList === null){
             retrieveFileData();
         }
@@ -76,13 +76,13 @@ NSBSFileInfo = (function(){
      This will load the combinerFile data from localStorage, and if not loaded, will trigger the data to be loaded.
      */
     function retrieveCombinerFiles(){
-        var combinerData = JSON.parse(localStorage.combinerData);
+        var combinerData = JSON.parse(localStorage.combinerData ? localStorage.combinerData : 'null');
         //If we have a localstorage that's incomplete for our siteId
         if(combinerData === null || combinerData[pageInfo.siteId] === null){
             fetchCombinerData();
         }//Else we have combinerFile data, and an entry for our siteId
         else{
-            var siteCombiners = combinerData[siteId];
+            var siteCombiners = combinerData[pageInfo.siteId];
 
             //TODO: Render the links
         }
