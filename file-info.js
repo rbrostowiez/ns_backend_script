@@ -108,7 +108,7 @@ NSBSFileInfo = (function(){
             path.push(file.name);
         }
         else{
-            //console.log('Attempted to render path for file id: ', id, ', but the file was not found.');
+            console.log('Attempted to render path for file id: ', id, ', but the file was not found.');
         }
         return path.join('/');
     }
@@ -219,7 +219,7 @@ NSBSFileInfo = (function(){
      }
      */
     function parseFolderContents(folderString){
-        var fileCount, records, fileList, workingData, startOfData, endOfData, cl, tempFile;
+        var fileCount, records, fileList, workingData, startOfData, endOfData, currentLine, tempFile;
         //Locating the start/end of data since there is a bit of header info
         startOfData = folderString.indexOf(NSBSConfig.STX);
         endOfData = folderString.lastIndexOf(NSBSConfig.SOH);
@@ -230,20 +230,20 @@ NSBSFileInfo = (function(){
         workingData = folderString.substring(startOfData+1, endOfData).split(NSBSConfig.SOH+NSBSConfig.ACK+NSBSConfig.ACK+NSBSConfig.STX);
         //Loop through each line and parse the data
         for(var i = 0, l = workingData.length; i <l; i++){
-            cl = workingData[i].split(NSBSConfig.SOH);//cl for currentLine
-            if(cl.length >= 5){
+            currentLine = workingData[i].split(NSBSConfig.SOH);//currentLine
+            if(currentLine.length >= 5){
                 var path = [];
-                var tempPath = cl[4].split('.');
+                var tempPath = currentLine[4].split('.');
                 //Parsing the paths into an array of integers
                 for(var j = 0, m = tempPath.length; j < m; j++){
                     path.push(tempPath[j]);
                 }
 
                 tempFile = {
-                    id: cl[0],
-                    name: cl[1],
+                    id: currentLine[0],
+                    name: currentLine[1],
                     path: path,
-                    hasChildren: (cl[2] === '1') ? true : false
+                    hasChildren: currentLine[2] === '1'
                 };
 
                 fileList.push(tempFile);
