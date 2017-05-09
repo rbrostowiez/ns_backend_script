@@ -2,7 +2,7 @@
  * Created by Ray on 5/8/2017.
  */
 
-var NSBSUtil = (function(){
+NSBSUtil = (function(){
     return {
         createCookie: function(name,value,days) {
             var date, expires;

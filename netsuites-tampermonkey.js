@@ -1,4 +1,4 @@
-(function(NSBSConfig){
+(function(){
     "use strict";
 
     /*
@@ -1226,5 +1226,5 @@
             //pageInfo.customSetup();
         }
     });
-})(NSBSConfig);
+})();
 

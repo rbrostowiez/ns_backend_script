@@ -2,7 +2,7 @@
  * Created by Ray on 5/9/2017.
  */
 
-var NSBSFileInfo = (function(){
+NSBSFileInfo = (function(){
 
     function fetchSspIds(){
         jQuery.ajax({

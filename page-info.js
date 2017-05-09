@@ -2,7 +2,7 @@
  * Created by Ray on 5/9/2017.
  */
 
-var NSBSPageInfo = (function(){
+NSBSPageInfo = (function(){
 
     var $buttonContainer;
 
