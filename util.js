@@ -2,7 +2,7 @@
  * Created by Ray on 5/8/2017.
  */
 
-var NSBSUtil = (function(jQuery){
+var NSBSUtil = (function(){
     return {
         createCookie: function(name,value,days) {
             var date, expires;
@@ -32,5 +32,5 @@ var NSBSUtil = (function(jQuery){
             nlapiServerCall("/app/site/setup/clearsitecache.nl", "clearResponseSiteCache", [pageInfo.userId, pageInfo.siteId]);
             alert("Call has been sent for siteId: " + pageInfo.siteId + "!");
         }
-    }
-})(jQuery);
+    };
+})();
