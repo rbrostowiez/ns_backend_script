@@ -310,7 +310,7 @@
         NSBSPageInfo.getPageInfo();
 
         //This will assign fileList itself, since it may require ajax calls
-        fetchOrRetrieveFileData();
+        NSBSFileInfo.fetchOrRetrieveFileData();
 
         if(jQuery.isArray(pageInfo.sspIds)){
             renderSspLinks();

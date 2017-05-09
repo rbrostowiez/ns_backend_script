@@ -376,6 +376,7 @@ NSBSFileInfo = (function(){
         fetchSspIds: fetchSspIds,
         fetchCombinerData: fetchCombinerData,
         retrieveSspIds: retrieveSspIds,
-        retrieveCombinerFiles: retrieveCombinerFiles
+        retrieveCombinerFiles: retrieveCombinerFiles,
+        fetchOrRetrieveFileData: fetchOrRetrieveFileData
     };
 })();
