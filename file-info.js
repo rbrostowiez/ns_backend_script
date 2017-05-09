@@ -364,7 +364,7 @@ NSBSFileInfo = (function(){
 
         if( !folderList || !fileList || !folderList.hasOwnProperty(pageInfo.userId) || !fileList.hasOwnProperty(pageInfo.userId) ){
             console.log('FileList or FolderList not found for siteId, parsed: folder: ', folderList, ', file: ', fileList);
-            retrieveFileData(callback);
+            retrieveFileData(fetchOrRetrieveFileData.bind(this, callback));
         }
         else{
             //Assigning the loaded file/folder data into the pageInfo object
@@ -374,7 +374,9 @@ NSBSFileInfo = (function(){
             buildFolderData();
             buildFileData();
 
-            callback();
+            if(typeof callback === 'function'){
+                callback();
+            }
         }
     }
 
