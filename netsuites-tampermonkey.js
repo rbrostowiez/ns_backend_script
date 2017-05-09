@@ -276,7 +276,6 @@
                             $item.find('a:last').before($editLink);
                         }
                     }
-
                 }
                 //This needs to be bound everytime the tooltip is instantiated.
                 jQuery('#uir-global-search-container').on('click', '.edit-link', function(e){
@@ -292,6 +291,7 @@
             //Adding a prefilter to wrap the success function of AJAX calls to the /../autosuggest.nl endpoint
             jQuery.ajaxPrefilter(function(options, originalOptions, jqXhr){
                 if(options.url.indexOf("/app/common/autosuggest.nl?cur_val=") !== -1){
+                    console.log('search query, wrapping succes function');
                     //Storing the success function in a locally scoped object to be used in the success
                     jqXhr.id = Math.floor(Math.random() * 1000000000);
                     callbacks[jqXhr.id] = originalOptions.success;
@@ -382,6 +382,8 @@
     */
     var isCustomPage = function(){
         var ret = false;
+        var customPages = NSBSConfig.customPages;
+
         for(var i = 0, l = customPages.length; i < l; i++){
             if(window.location.pathname.indexOf(customPages[i].path) !== -1){
                 ret = true;
@@ -941,7 +943,7 @@
         }
         else if( isCustomPage() ){
             //This handles custom set up for pages that don't support the typical add-on features
-            //pageInfo.customSetup();
+            pageInfo.customSetup();
         }
     });
 })();
