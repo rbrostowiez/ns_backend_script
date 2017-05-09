@@ -216,7 +216,7 @@
                     href = href.substring(href.indexOf('?'));
                     $cell.css('position', 'relative');
                     $editLink  = generateLink('DirectEdit', '#'+ NSBSPageInfo.getParam('id', href), 'edit-link', false);
-                    $editLink.attr('title', renderFilePathById(NSBSPageInfo.getParam('id', href)));
+                    $editLink.attr('title', NSBSFileInfo.renderFilePathById(NSBSPageInfo.getParam('id', href)));
                     $cell.append($editLink);
                 }
             }
@@ -269,7 +269,7 @@
                     if(href.indexOf('/app/common/media/mediaitem.nl') !== -1){
                         href = href.substring(href.indexOf('?'));
                         $editLink  = generateLink('DirectEdit', '#'+ NSBSPageInfo.getParam('id', href), 'edit-link', false);
-                        $editLink.attr('title', renderFilePathById(NSBSPageInfo.getParam('id', href)));
+                        $editLink.attr('title', NSBSFileInfo.renderFilePathById(NSBSPageInfo.getParam('id', href)));
                         //Appending to the LI
                         $item.find('a:last').before($editLink);
                     }
