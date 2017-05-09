@@ -277,7 +277,6 @@
 
         setupFileLinks();
 
-        console.log(globalSearch);
         setupAndHijackSearchBar();
         setupQuickNav();
     };
