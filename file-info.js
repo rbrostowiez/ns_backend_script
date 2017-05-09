@@ -55,19 +55,21 @@ NSBSFileInfo = (function(){
         //Fetching the DocumentBrowserPage, and parsing the top-level folders
         var fileList = JSON.parse(localStorage.fileList ? localStorage.fileList : 'null');
         if(fileList === null || !fileList.hasOwnProperty(pageInfo.userId)){
-            retrieveFileData();
+            retrieveFileData(fetchCombinerData);
         }
-        //Grep the file list for combiner/templates.config within a 'Custom' directory
-        pageInfo.combinerData = fileList[pageInfo.userId].filter(function(v,i,a){
-            var path;
-            //If it's a combiner file and inside a directory w/ 'Custom' in the name
-            if(v.name === "combiner.config" || v.name === "templates.config"){
-                path = renderFilePathById(v.id);
+        else{
+            //Grep the file list for combiner/templates.config within a 'Custom' directory
+            pageInfo.combinerData = fileList[pageInfo.userId].filter(function(v,i,a){
+                var path;
+                //If it's a combiner file and inside a directory w/ 'Custom' in the name
+                if(v.name === "combiner.config" || v.name === "templates.config"){
+                    path = renderFilePathById(v.id);
 
-                return path.indexOf('Custom') !== -1;
-            }
-            return false;
-        });
+                    return path.indexOf('Custom') !== -1;
+                }
+                return false;
+            });
+        }
     }
 
     /*
@@ -256,7 +258,7 @@ NSBSFileInfo = (function(){
      the entire file hierarchy.  It will first retrieve the folder hierarchy, then it will retrieve the contained
      files via search.
      */
-    function retrieveFileData(){
+    function retrieveFileData(callback){
         var folderList = [], folderUrl, folderQueue = [], recursiveAjax, callCount = 0,
             existingFolderList;
 
@@ -295,6 +297,10 @@ NSBSFileInfo = (function(){
                 buildFolderData();
                 //Once we have the folderInformation parsed into fileData, we will need to retrieve the files' info
                 retrieveFilesFromSearch();
+
+                if(callback && typeof callback === 'function'){
+                    callback();
+                }
             }
         };
 
