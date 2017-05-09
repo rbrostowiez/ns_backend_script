@@ -367,7 +367,7 @@
             href = $item.attr('href');
             if(href && (href.indexOf('mediaitem.nl') !== -1 || href.indexOf('media.nl') !== -1) ){
                 id = NSBSPageInfo.getParam('id', href.substring(href.indexOf('?')));
-                path = renderFilePathById(id);
+                path = NSBSFileInfo.renderFilePathById(id);
 
                 $item.addClass('added-path');
                 $item.attr('title', path);
