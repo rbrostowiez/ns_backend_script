@@ -589,7 +589,7 @@
     };
 
     var setup = function(){
-        pageInfo = NSBSPageInfo.getPageInfo();
+        NSBSPageInfo.getPageInfo();
 
         //This will assign fileList itself, since it may require ajax calls
         fetchOrRetrieveFileData();

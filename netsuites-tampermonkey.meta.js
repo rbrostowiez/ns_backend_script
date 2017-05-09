@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Netsuite Backend Script
 // @namespace  raymond.brostowicz.com
-// @version    0.19
+// @version    0.20
 // @description  BackEnd scrips for NetSuite ERP
 // @match      https://system.na1.netsuite.com/*
 // @match      https://system.sandbox.netsuite.com/*
@@ -10,6 +10,7 @@
 // @require http://nsbs.brostowicz.com/config.js
 // @require http://nsbs.brostowicz.com/custom-pages.js
 // @require http://nsbs.brostowicz.com/util.js
+// @require http://nsbs.brostowicz.com/file-info.js
 // @require http://nsbs.brostowicz.com/page-info.js
 // @require http://code.jquery.com/jquery-latest.js
 // @require http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js
