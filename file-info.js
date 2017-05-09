@@ -54,12 +54,12 @@ NSBSFileInfo = (function(){
     function fetchCombinerData(){
         //Fetching the DocumentBrowserPage, and parsing the top-level folders
         var fileList = JSON.parse(localStorage.fileList ? localStorage.fileList : 'null');
-        if(fileList === null){
+        if(fileList === null || !fileList.hasOwnProperty(pageInfo.userId)){
             retrieveFileData();
         }
         else{
             //Grep the file list for combiner/templates.config within a 'Custom' directory
-            pageInfo.combinerData = fileList.filter(function(v,i,a){
+            pageInfo.combinerData = fileList[pageInfo.userId].filter(function(v,i,a){
                 var path;
                 //If it's a combiner file and inside a directory w/ 'Custom' in the name
                 if(v.name === "combiner.config" || v.name === "templates.config"){
@@ -78,11 +78,11 @@ NSBSFileInfo = (function(){
     function retrieveCombinerFiles(){
         var combinerData = JSON.parse(localStorage.combinerData ? localStorage.combinerData : 'null');
         //If we have a localstorage that's incomplete for our siteId
-        if(combinerData === null || combinerData[pageInfo.siteId] === null){
+        if(combinerData === null || combinerData[pageInfo.userId] === null){
             fetchCombinerData();
         }//Else we have combinerFile data, and an entry for our siteId
         else{
-            var siteCombiners = combinerData[pageInfo.siteId];
+            var siteCombiners = combinerData[pageInfo.userId];
 
             //TODO: Render the links
         }
