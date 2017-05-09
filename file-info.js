@@ -364,7 +364,10 @@ NSBSFileInfo = (function(){
 
         if( !folderList || !fileList || !folderList.hasOwnProperty(pageInfo.userId) || !fileList.hasOwnProperty(pageInfo.userId) ){
             console.log('FileList or FolderList not found for siteId, parsed: folder: ', folderList, ', file: ', fileList);
-            retrieveFileData(fetchOrRetrieveFileData.bind(this, callback));
+
+            if(confirm('There is no file Data present, and it is being requested, grab file data?')){
+                retrieveFileData(fetchOrRetrieveFileData.bind(this, callback));
+            }
         }
         else{
             //Assigning the loaded file/folder data into the pageInfo object
