@@ -221,16 +221,16 @@ NSBSFileInfo = (function(){
     function parseFolderContents(folderString){
         var fileCount, records, fileList, workingData, startOfData, endOfData, cl, tempFile;
         //Locating the start/end of data since there is a bit of header info
-        startOfData = folderString.indexOf(STX);
-        endOfData = folderString.lastIndexOf(SOH);
+        startOfData = folderString.indexOf(NSBSConfig.STX);
+        endOfData = folderString.lastIndexOf(NSBSConfig.SOH);
 
-        fileCount = parseInt( folderString.substring( folderString.indexOf(SOH) + 1,  startOfData) );
+        fileCount = parseInt( folderString.substring( folderString.indexOf(NSBSConfig.SOH) + 1,  startOfData) );
         fileList = [];
         //This split will give us a
-        workingData = folderString.substring(startOfData+1, endOfData).split(SOH+ACK+ACK+STX);
+        workingData = folderString.substring(startOfData+1, endOfData).split(NSBSConfig.SOH+NSBSConfig.ACK+NSBSConfig.ACK+NSBSConfig.STX);
         //Loop through each line and parse the data
         for(var i = 0, l = workingData.length; i <l; i++){
-            cl = workingData[i].split(SOH);//cl for currentLine
+            cl = workingData[i].split(NSBSConfig.SOH);//cl for currentLine
             if(cl.length >= 5){
                 var path = [];
                 var tempPath = cl[4].split('.');
