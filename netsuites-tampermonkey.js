@@ -197,7 +197,7 @@
     section.  It will add a direct edit link to search result items that link into the the file records pages.
     */
     var setupAndHijackSearchBar = function(){
-        if(globalSearch && typeof globalSearch === 'function'){
+        if(window.hasOwnProperty('globalSearch') && typeof window.globalSearch === 'function'){
             //A system of catching callbacks to be used on the other end of a setTimeout and AJAX call
             var callbacks = {};
             var wrappedSuccess = function(data, status, jqXhr){
@@ -256,6 +256,7 @@
             });
         }
         else{
+            console.log('globalSearch not found, trying in 250ms');
             setTimeout(setupAndHijackSearchBar, 250);
         }
     };
