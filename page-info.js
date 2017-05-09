@@ -13,6 +13,7 @@ var NSBSPageInfo = (function(){
      */
     function getParams(query){
         var paramList, params = {};
+        query = query || window.location.query;
         //If the query is non-zero and starts w/ a '?'
         if(query.length > 0 && query.indexOf('?') === 0){
             paramList = query.substring(1).split("&");//Splitting into key/value pairs w/ '=' between them
