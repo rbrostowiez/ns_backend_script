@@ -54,7 +54,7 @@ NSBSFileInfo = (function(){
     function fetchCombinerData(){
         //Fetching the DocumentBrowserPage, and parsing the top-level folders
         var fileList = JSON.parse(localStorage.fileList ? localStorage.fileList : 'null');
-        if(fileList === null || !fileList.hasOwnProperty(pageInfo.userId)){
+        if(fileList === null || !fileList.hasOwnProperty(pageInfo.userId) || !pageInfo.fileData){
             fetchOrRetrieveFileData(fetchCombinerData);
         }
         else{
