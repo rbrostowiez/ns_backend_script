@@ -8,6 +8,7 @@
 // @copyright  2017 Raymond Brostowicz
 // @resource http://nsbs.brostowicz.com/styles.css
 // @require http://nsbs.brostowicz.com/config.js
+// @require http://nsbs.brostowicz.com/custom-pages.js
 // @require http://code.jquery.com/jquery-latest.js
 // @require http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js
 // @require https//nsbs.brostowicz.com/util.js

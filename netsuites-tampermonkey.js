@@ -3,54 +3,7 @@
 
     var pageInfo;
 
-    //An array of special objects that can be used to set up exception scenarios, such as binding Ctrl+s to editors, etc
-    var customPages = [
-        {
-            path: "/app/common/record/edittextmediaitem.nl",
-            /*
-            This function handles a special case setup for text editors within netsuite, it adds no functionality,
-            but will bind Ctrl + S to trigger the Save button on the editor.
-            */
-            setup: function(){
-                jQuery(window).bind('keydown', function(event) {
-                    if (event.ctrlKey || event.metaKey) {
-                        switch (String.fromCharCode(event.which).toLowerCase()) {
-                            case 's':
-                                event.preventDefault();
-                                jQuery('#submitter').click();
-                                break;
-                        }
-                    }
-                });
-            }
-        }
-    ];
 
-    var createCookie = function (name,value,days) {
-        var date, expires;
-        if (days) {
-            date = new Date();
-            date.setTime(date.getTime()+(days*24*60*60*1000));
-            expires = "; expires="+date.toGMTString();
-        }
-        else expires = "";
-        document.cookie = name+"="+value+expires+"; path=/";
-    };
-
-    var readCookie = function(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(";");
-        for(var i=0;i < ca.length;i++) {
-            var c = ca[i];
-            while (c.charAt(0) === " ") c = c.substring(1,c.length);
-            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
-        }
-        return null;
-    };
-
-    var eraseCookie = function(name) {
-        createCookie(name,"",-1);
-    };
 
     //Takes the param string(? to #)
 
@@ -263,7 +216,7 @@
             success:function(data){
                 var href = jQuery("#row0 td:eq(0) a", data).attr("href");
                 var siteId = getParam("id" , href.substring(href.indexOf("?")));
-                createCookie("siteId", siteId);
+                NSBSUtil.createCookie("siteId", siteId);
                 retrieveSiteId();
             }
         });
@@ -274,17 +227,17 @@
     the retrieval of the siteId and return null.
     */
     var retrieveSiteId = function(){
-        var knownSiteIds = JSON.parse(readCookie('knownSiteIds'));
+        var knownSiteIds = JSON.parse(NSBSUtil.readCookie('knownSiteIds'));
         //If the cookie is null or if it doesn't contain the current userId
         if(knownSiteIds === null || !knownSiteIds.hasOwnProperty(pageInfo.userId)){
-            var currentSiteId = readCookie('siteId');
+            var currentSiteId = NSBSUtil.readCookie('siteId');
             knownSiteIds = knownSiteIds || {};
             //If the current siteId cookie is present, then the ajax call is re-calling retrieveSiteId
             if(currentSiteId){
                 knownSiteIds[pageInfo.userId] = currentSiteId;
                 pageInfo.siteId = currentSiteId;
-                createCookie('knownSiteIds', JSON.stringify(knownSiteIds));
-                eraseCookie('siteId');
+                NSBSUtil.createCookie('knownSiteIds', JSON.stringify(knownSiteIds));
+                NSBSUtil.eraseCookie('siteId');
             }
             else{
                 fetchSiteId();
@@ -312,22 +265,22 @@
                     });
                 }
 
-                createCookie("sspIds", JSON.stringify(sspIds));
+                NSBSUtil.createCookie("sspIds", JSON.stringify(sspIds));
                 retrieveSspIds();
             }
         });
     };
 
     var retrieveSspIds = function(){
-        var knownSspIds = JSON.parse(readCookie('knownSspIds'));
+        var knownSspIds = JSON.parse(NSBSUtil.readCookie('knownSspIds'));
         if(knownSspIds === null || !knownSspIds.hasOwnProperty(pageInfo.userId)){
-            var currentSspIds = JSON.parse(readCookie('sspIds'));
+            var currentSspIds = JSON.parse(NSBSUtil.readCookie('sspIds'));
             knownSspIds = knownSspIds || {};
             if(currentSspIds !== null){
                 knownSspIds[pageInfo.userId] = currentSspIds;
                 pageInfo.sspIds = currentSspIds;
-                createCookie('knownSspIds', JSON.stringify(knownSspIds));
-                eraseCookie('sspIds');
+                NSBSUtil.createCookie('knownSspIds', JSON.stringify(knownSspIds));
+                NSBSUtil.eraseCookie('sspIds');
             }
             else{
                 fetchSspIds();
@@ -814,7 +767,7 @@
         pageInfo.query = window.location.search;
         pageInfo.params = getParams();
         //This userId refers to the 'client id' for netsuite.
-        pageInfo.userId = readCookie("lastUser").split("_")[0];
+        pageInfo.userId = NSBSUtil.readCookie("lastUser").split("_")[0];
         //Will perform an ajax call if it has never been loaded
         pageInfo.siteId = retrieveSiteId();
         pageInfo.sspIds = retrieveSspIds();
