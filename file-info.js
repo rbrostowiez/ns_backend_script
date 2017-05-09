@@ -365,7 +365,7 @@ NSBSFileInfo = (function(){
         if( !folderList || !fileList || !folderList.hasOwnProperty(pageInfo.userId) || !fileList.hasOwnProperty(pageInfo.userId) ){
             console.log('FileList or FolderList not found for siteId, parsed: folder: ', folderList, ', file: ', fileList);
             //Check if we're going to load data
-            if(readCookie('skippedFileData') === 'true' || confirm('There is no file Data present, and it is being requested, grab file data?')){
+            if(NSBSUtil.readCookie('skippedFileData') === 'true' || confirm('There is no file Data present, and it is being requested, grab file data?')){
                 retrieveFileData(fetchOrRetrieveFileData.bind(this, callback));
                 NSBSUtil.eraseCookie('skippedFileData');
             }
