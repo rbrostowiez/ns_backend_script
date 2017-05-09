@@ -89,6 +89,9 @@ var NSBSFileInfo = (function(){
     }
 
     return {
-
+        fetchSspIds: fetchSspIds,
+        fetchCombinerData: fetchCombinerData,
+        retrieveSspIds: retrieveSspIds,
+        retrieveCombinerFiles: retrieveCombinerFiles
     };
 })();

@@ -2,7 +2,9 @@
  * Created by Ray on 5/9/2017.
  */
 
-var pageInfo = (function(){
+var NSBSPageInfo = (function(){
+
+    var $buttonContainer;
 
     /*
      This function takes an optional query parameter(in the format: ?param1=val&param2=val2), and parses the
@@ -65,6 +67,23 @@ var pageInfo = (function(){
         return (knownSiteIds && knownSiteIds.hasOwnProperty(pageInfo.userId)) ? knownSiteIds[pageInfo.userId] : null ;
     }
 
+    //Creates an absolutely positioned div and appends it to the body before returning it
+    function createButtonContainer(){
+        var $container =  jQuery("<div id=\"buttonContainer\"></div>");
+
+        jQuery("body").append($container);
+
+        return $container;
+    }
+
+    function createLinkContainer(){
+        var $container =  jQuery("<div id=\"linkContainer\"></div>");
+
+        $buttonContainer.append($container);
+
+        return $container;
+    }
+
     return {
         getParams: getParams,
         getPageInfo: function(){
@@ -78,8 +97,8 @@ var pageInfo = (function(){
                 userId: NSBSUtil.readCookie("lastUser").split("_")[0],
                 //Will perform an ajax call if it has never been loaded
                 siteId: retrieveSiteId(),
-                sspIds: retrieveSspIds(),
-                combinerFiles: retrieveCombinerFiles(),
+                sspIds: NSBSFileInfo.retrieveSspIds(),
+                combinerFiles: NSBSFileInfo.retrieveCombinerFiles(),
                 //Creating the button container
                 $buttonContainer: createButtonContainer(),
                 $linkContainer: createLinkContainer()

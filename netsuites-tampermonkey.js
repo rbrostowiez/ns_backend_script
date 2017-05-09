@@ -17,20 +17,7 @@
         }
     };
 
-    //Creates an absolutely positioned div and appends it to the body before returning it
-    var createButtonContainer = function(){
-        var $container =  jQuery("<div id=\"buttonContainer\"></div>");
 
-        jQuery("body").append($container);
-        return $container;
-    };
-
-    var createLinkContainer = function(){
-        var $container =  jQuery("<div id=\"linkContainer\"></div>");
-
-        pageInfo.$buttonContainer.append($container);
-        return $container;
-    };
     /*
     Generates a generic button that can be inserted into the $buttonContainer, and will bind the provided
     function as a click handler.  It will also append to the pageInfo.$buttonContainer unless a false is
@@ -604,7 +591,7 @@
     };
 
     var setup = function(){
-        pageInfo = pageInfo.getPageInfo();
+        pageInfo = NSBSPageInfo.getPageInfo();
 
         //This will assign fileList itself, since it may require ajax calls
         fetchOrRetrieveFileData();
