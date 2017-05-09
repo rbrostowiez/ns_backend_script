@@ -281,7 +281,7 @@ NSBSFileInfo = (function(){
             var next = folderQueue.shift();
             if(next){
                 var url= folderUrl.split('@id').join(next.id);
-                $.ajax({
+                jQuery.ajax({
                     url: url,
                     dataType: "text",
                     success: recursiveAjax
@@ -320,7 +320,7 @@ NSBSFileInfo = (function(){
             path: ['-100']
         });
 
-        $.ajax({
+        jQuery.ajax({
             url: folderUrl.split('@id').join('-100'),
             success: recursiveAjax,
             dataType: 'text'

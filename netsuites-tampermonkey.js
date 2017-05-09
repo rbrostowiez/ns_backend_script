@@ -190,48 +190,6 @@
         });
     };
 
-    /*
-    This is the old hijack function for the older NS backend.  It is kept for legacy purposes and will
-    probably be phased out.
-    */
-    var oldSetupAndHijackSearchBar = function(){
-        //Hijacking the render function for the results box
-        var originalFunction = constructSuggestionBoxFromResponse;
-        console.log('in the oldSetupAndHijackSearchBar');
-        constructSuggestionBoxFromResponse = function(response){
-            console.log('firing hijacked constructSuggestionBoxFromResponse');
-
-            originalFunction.call(this, response);
-
-            var $popupCells = jQuery('.popupsuggest td[nowrap] td[nowrap]');
-            for(var i = 0, l = $popupCells.length; i < l; i++){
-                var $cell, $link, href, $editLink;
-
-                $cell = $popupCells.eq(i);
-                $link = $cell.find('a');
-                href = $link.attr('href');
-
-                if(href.indexOf('/app/common/media/mediaitem.nl') !== -1){
-
-                    href = href.substring(href.indexOf('?'));
-                    $cell.css('position', 'relative');
-                    $editLink  = generateLink('DirectEdit', '#'+ NSBSPageInfo.getParam('id', href), 'edit-link', false);
-                    $editLink.attr('title', NSBSFileInfo.renderFilePathById(NSBSPageInfo.getParam('id', href)));
-                    $cell.append($editLink);
-                }
-            }
-        };
-
-        jQuery('body').on('click', '.popupsuggest .edit-link', function(e){
-            e.preventDefault();
-
-            var $target = jQuery(e.target);
-            nlOpenWindow("/app/common/record/edittextmediaitem.nl?id="+ $target.attr("href").substring(1) +"&e=T&l=T&target=filesize", "edittextmediaitem34815", 800, 600);
-
-            return false;
-        });
-    };
-
 
     /*
     This function will hijack the globally defined 'globalSearch'(or constructSuggestionBoxFromResponse)
@@ -288,10 +246,7 @@
         };
         //Adding a prefilter to wrap the success function of AJAX calls to the /../autosuggest.nl endpoint
         jQuery.ajaxPrefilter(function(options, originalOptions, jqXhr){
-            console.log(options);
-
             if(options.url.indexOf("/app/common/autosuggest.nl?cur_val=") !== -1){
-                console.log('search query, wrapping succes function');
                 //Storing the success function in a locally scoped object to be used in the success
                 jqXhr.id = Math.floor(Math.random() * 1000000000);
                 callbacks[jqXhr.id] = originalOptions.success;
