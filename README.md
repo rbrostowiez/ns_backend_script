@@ -4,15 +4,15 @@ This is a Tamper/Grease-MonkeyScript that adds some good functionality to the ba
 
 ## Features
 * Additional Controls
-** Direct Links
-*** Added some direct links to the File Cabinet and Custom Record pages
-*** SSP Applications
-**** SSP Applications are scanned and stored to localstorage, and links are generated to each SSP's page
+  * Direct Links
+  * Added some direct links to the File Cabinet and Custom Record pages
+  * SSP Applications
+    * SSP Applications are scanned and stored to localstorage, and links are generated to each SSP's page
 * Search
-** Search now has a 'Direct Edit' link which will directly open the file editor for the searched file(if its modifiable)
+  * Search now has a 'Direct Edit' link which will directly open the file editor for the searched file(if its modifiable)
 * File Cabinet
-** Hierarchy Parsing(first load will take quite some time and potentially consume all the APIs)
-** Direct Edit Link: In File Cabinet all non-folders will have an 'EditFile' link  which will open the editor
+  * Hierarchy Parsing(first load will take quite some time and potentially consume all the APIs)
+  * Direct Edit Link: In File Cabinet all non-folders will have an 'EditFile' link  which will open the editor
 
 ## Installation
 You will need GreaseMonkey or TamperMonkey to install the script; these are browser extensions that allow you to run
