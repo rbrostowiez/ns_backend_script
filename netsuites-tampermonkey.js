@@ -262,6 +262,7 @@
 
     var setup = function(){
         NSBSPageInfo.getPageInfo();
+        NSBSFileInfo.fetchSspIds();
 
         //This will assign fileList itself, since it may require ajax calls
         //NSBSFileInfo.fetchOrRetrieveFileData();
@@ -870,7 +871,7 @@
             generateButton("ClearCache", NSBSUtil.clearCache);
 
             //This should trigger the file-browser provided by this add-on
-            var fb = generateButton("FileBrowser", toggleFileBrowser);
+            //var fb = generateButton("FileBrowser", toggleFileBrowser);
             //fb.click();//Added for debug purposes
 
             //If we're on a Script page, we want the execution log to be the default tab
