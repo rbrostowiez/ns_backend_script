@@ -264,7 +264,7 @@
         NSBSPageInfo.getPageInfo();
 
         //This will assign fileList itself, since it may require ajax calls
-        NSBSFileInfo.fetchOrRetrieveFileData();
+        //NSBSFileInfo.fetchOrRetrieveFileData();
 
         if(jQuery.isArray(pageInfo.sspIds)){
             renderSspLinks();
@@ -284,9 +284,9 @@
     This function will alter the title text for links to MediaItems by rendering the filePath for the item.
     */
     var setupFileLinks = function(){
-        addFilePathToLinks();
+        //addFilePathToLinks();
 
-        setupFileTooltip();
+        //setupFileTooltip();
     };
 
 
@@ -313,20 +313,20 @@
 
     */
     var addFilePathToLinks = function(){
-        var i,l, href, id, path, $item, $links;
-        $links = jQuery('a:not(.added-path)');
-
-        for(i = 0, l = $links.length; i < l; i++){
-            $item = $links.eq(i);
-            href = $item.attr('href');
-            if(href && (href.indexOf('mediaitem.nl') !== -1 || href.indexOf('media.nl') !== -1) ){
-                id = NSBSPageInfo.getParam('id', href.substring(href.indexOf('?')));
-                path = NSBSFileInfo.renderFilePathById(id);
-
-                $item.addClass('added-path');
-                $item.attr('title', path);
-            }
-        }
+        // var i,l, href, id, path, $item, $links;
+        // $links = jQuery('a:not(.added-path)');
+        //
+        // for(i = 0, l = $links.length; i < l; i++){
+        //     $item = $links.eq(i);
+        //     href = $item.attr('href');
+        //     if(href && (href.indexOf('mediaitem.nl') !== -1 || href.indexOf('media.nl') !== -1) ){
+        //         id = NSBSPageInfo.getParam('id', href.substring(href.indexOf('?')));
+        //         path = NSBSFileInfo.renderFilePathById(id);
+        //
+        //         $item.addClass('added-path');
+        //         $item.attr('title', path);
+        //     }
+        // }
     };
 
 
@@ -623,30 +623,30 @@
     thus establishing a hierarchy.
     */
     var initializeFileHierarchy = function(){
-        var hierarchy, folders, i, l, j, m, current, lastPathNode, currentPathId;
-        //Sorting the folders by the path(ascending)
-        folders = pageInfo.folderList[pageInfo.userId].sort(function(a, b){
-            return a.path.length - b.path.length;
-        });
-        //Defining the top-level node
-        hierarchy = {};
-        //Looping over every single folder to build out the hierarchy object
-        for(i = 0, l = folders.length; i < l; i++){
-            current = folders[i];
-            lastPathNode = hierarchy;
-
-            for(j = 0, m = current.path.length; j < m; j++){
-                currentPathId = current.path[j];
-                //If the lastNode doesn't have this portion of the path, we will add it
-                if(!lastPathNode.hasOwnProperty(currentPathId)){
-                    lastPathNode[currentPathId] = {};
-                }
-                //Updating lastNodePath, since it should have the currentPathId
-                lastPathNode = lastPathNode[currentPathId];
-            }
-        }
-        //Storing the hierarchy
-        pageInfo.fileHierarchy = hierarchy;
+        // var hierarchy, folders, i, l, j, m, current, lastPathNode, currentPathId;
+        // //Sorting the folders by the path(ascending)
+        // folders = pageInfo.folderList[pageInfo.userId].sort(function(a, b){
+        //     return a.path.length - b.path.length;
+        // });
+        // //Defining the top-level node
+        // hierarchy = {};
+        // //Looping over every single folder to build out the hierarchy object
+        // for(i = 0, l = folders.length; i < l; i++){
+        //     current = folders[i];
+        //     lastPathNode = hierarchy;
+        //
+        //     for(j = 0, m = current.path.length; j < m; j++){
+        //         currentPathId = current.path[j];
+        //         //If the lastNode doesn't have this portion of the path, we will add it
+        //         if(!lastPathNode.hasOwnProperty(currentPathId)){
+        //             lastPathNode[currentPathId] = {};
+        //         }
+        //         //Updating lastNodePath, since it should have the currentPathId
+        //         lastPathNode = lastPathNode[currentPathId];
+        //     }
+        // }
+        // //Storing the hierarchy
+        // pageInfo.fileHierarchy = hierarchy;
     };
 
     /*
@@ -684,46 +684,46 @@
     this function, for scoping purposes.
     */
     var generateFileBrowserHierarchyMarkup = function(){
-        var i, l, currentLevel, folder;
-
-        currentLevel = 0;
-        //A recursive function to traverse the folderHierarchy
-        var traverseHierarchy = function(obj, level){
-            var markup = '', keys = Object.keys(obj);
-            //If there are children, then we will need to render a UL of them.
-            if(keys && keys.length > 0){
-                //RenderKeys via iteration
-                markup += '<ul class="list">';
-                for(var i = 0, l = keys.length; i < l; i++){
-                    folder = pageInfo.folderData[keys[i]];
-                    markup += [
-                        '<li data-level="', level, '" >',
-                            '<a class="label" href="#', keys[i] , '" style="text-indent: ', (level * 12 ) , 'px;" >',
-                                '<span class="expand">+</span>',
-                                '<span class="collapse">-</span>',
-                                folder.name,
-                            '</a>',
-                            traverseHierarchy(obj[keys[i]], level + 1),
-                        '</li>'
-                    ].join('');
-                }
-                markup += '</ul>';
-            }
-            //Returning the markup for this node
-            return markup;
-        };
-
-        return '<div id="folderHierarchy">' + traverseHierarchy(pageInfo.fileHierarchy, 0) + '</div>';
+        // var i, l, currentLevel, folder;
+        //
+        // currentLevel = 0;
+        // //A recursive function to traverse the folderHierarchy
+        // var traverseHierarchy = function(obj, level){
+        //     var markup = '', keys = Object.keys(obj);
+        //     //If there are children, then we will need to render a UL of them.
+        //     if(keys && keys.length > 0){
+        //         //RenderKeys via iteration
+        //         markup += '<ul class="list">';
+        //         for(var i = 0, l = keys.length; i < l; i++){
+        //             folder = pageInfo.folderData[keys[i]];
+        //             markup += [
+        //                 '<li data-level="', level, '" >',
+        //                     '<a class="label" href="#', keys[i] , '" style="text-indent: ', (level * 12 ) , 'px;" >',
+        //                         '<span class="expand">+</span>',
+        //                         '<span class="collapse">-</span>',
+        //                         folder.name,
+        //                     '</a>',
+        //                     traverseHierarchy(obj[keys[i]], level + 1),
+        //                 '</li>'
+        //             ].join('');
+        //         }
+        //         markup += '</ul>';
+        //     }
+        //     //Returning the markup for this node
+        //     return markup;
+        // };
+        //
+        // return '<div id="folderHierarchy">' + traverseHierarchy(pageInfo.fileHierarchy, 0) + '</div>';
     };
 
     /*
     Placeholder/stub function for generating the containers for the fileList
     */
     var genereateFileBrowserListMarkup = function(){
-        var markup = '<div id="fileList">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel gravida mi. Proin ultrices maximus accumsan. Duis finibus ex non faucibus feugiat. Nunc facilisis fringilla elementum. Praesent efficitur, risus non semper ultricies, eros nibh blandit purus, non porta lacus mi in nunc. Donec iaculis elit bibendum ligula finibus consequat. Praesent eu aliquet ligula. Quisque et felis mollis nunc commodo tincidunt quis ac ante. Integer magna nisl, fermentum sit amet tellus id, bibendum molestie nisl. Cras congue congue dui vel auctor. Aenean quis est vestibulum, tristique nisi non, egestas ipsum. Duis urna felis, feugiat et purus in, convallis pretium quam. Maecenas faucibus purus non purus pulvinar venenatis. Maecenas lectus nisl, rutrum ut facilisis a, mollis eu nunc. Aliquam a aliquam sem, vel semper dui. Aliquam risus sem, aliquam quis elit quis, ornare mollis metus. Quisque volutpat odio sed urna dictum, eu fringilla ante rhoncus. Phasellus tincidunt arcu ut eros molestie maximus. Curabitur sit amet lectus in risus finibus iaculis a sit amet enim. Vivamus convallis ex quis dolor mollis pharetra. Sed sodales viverra dui ut pulvinar. Quisque semper in tortor sed feugiat. In dapibus velit sed massa mollis rutrum. Mauris turpis eros, congue sed turpis at, ultricies rutrum nulla. Suspendisse malesuada nunc nisl, vel euismod velit blandit ac. Proin vel blandit nisi, eget commodo tellus. In sed tellus pharetra, pharetra urna a, faucibus purus. In fringilla pharetra sem, ullamcorper rhoncus ex hendrerit in. Pellentesque gravida in libero in volutpat. Vivamus vehicula dapibus fringilla. Vivamus lectus nisl, commodo ornare gravida sed, blandit id risus. Ut congue, mauris at mattis aliquet, massa dolor euismod nibh, ut finibus lacus turpis porta magna. Nulla eu accumsan sapien. Mauris scelerisque fringilla purus nec dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus eget aliquam lectus, in sodales nunc. Fusce convallis purus elit, sed elementum ligula porttitor et. Nullam id est et enim consequat porttitor. Donec vel fermentum tellus. Ut scelerisque at diam at convallis. Pellentesque in lacus ut mauris vulputate aliquet. Proin quis libero ex. Suspendisse potenti. Phasellus et ipsum at justo interdum rutrum at non urna. In vitae metus dui. Vivamus fringilla odio eu ex facilisis, vitae placerat libero blandit. Nullam vel metus id tortor rhoncus dapibus eu ut ipsum. Phasellus venenatis tortor vel nisi ultrices consectetur. Mauris congue nec tellus non laoreet. Morbi interdum risus sed magna ornare eleifend. Nunc sed orci a nisi consequat maximus et sit amet nunc. Donec porttitor consectetur purus, et accumsan urna eleifend vitae. Sed condimentum bibendum libero, sed sollicitudin odio pretium sed.</div>';
-        //TODO: Implement some basic markup to get a default view
-
-        return markup;
+        // var markup = '<div id="fileList">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel gravida mi. Proin ultrices maximus accumsan. Duis finibus ex non faucibus feugiat. Nunc facilisis fringilla elementum. Praesent efficitur, risus non semper ultricies, eros nibh blandit purus, non porta lacus mi in nunc. Donec iaculis elit bibendum ligula finibus consequat. Praesent eu aliquet ligula. Quisque et felis mollis nunc commodo tincidunt quis ac ante. Integer magna nisl, fermentum sit amet tellus id, bibendum molestie nisl. Cras congue congue dui vel auctor. Aenean quis est vestibulum, tristique nisi non, egestas ipsum. Duis urna felis, feugiat et purus in, convallis pretium quam. Maecenas faucibus purus non purus pulvinar venenatis. Maecenas lectus nisl, rutrum ut facilisis a, mollis eu nunc. Aliquam a aliquam sem, vel semper dui. Aliquam risus sem, aliquam quis elit quis, ornare mollis metus. Quisque volutpat odio sed urna dictum, eu fringilla ante rhoncus. Phasellus tincidunt arcu ut eros molestie maximus. Curabitur sit amet lectus in risus finibus iaculis a sit amet enim. Vivamus convallis ex quis dolor mollis pharetra. Sed sodales viverra dui ut pulvinar. Quisque semper in tortor sed feugiat. In dapibus velit sed massa mollis rutrum. Mauris turpis eros, congue sed turpis at, ultricies rutrum nulla. Suspendisse malesuada nunc nisl, vel euismod velit blandit ac. Proin vel blandit nisi, eget commodo tellus. In sed tellus pharetra, pharetra urna a, faucibus purus. In fringilla pharetra sem, ullamcorper rhoncus ex hendrerit in. Pellentesque gravida in libero in volutpat. Vivamus vehicula dapibus fringilla. Vivamus lectus nisl, commodo ornare gravida sed, blandit id risus. Ut congue, mauris at mattis aliquet, massa dolor euismod nibh, ut finibus lacus turpis porta magna. Nulla eu accumsan sapien. Mauris scelerisque fringilla purus nec dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus eget aliquam lectus, in sodales nunc. Fusce convallis purus elit, sed elementum ligula porttitor et. Nullam id est et enim consequat porttitor. Donec vel fermentum tellus. Ut scelerisque at diam at convallis. Pellentesque in lacus ut mauris vulputate aliquet. Proin quis libero ex. Suspendisse potenti. Phasellus et ipsum at justo interdum rutrum at non urna. In vitae metus dui. Vivamus fringilla odio eu ex facilisis, vitae placerat libero blandit. Nullam vel metus id tortor rhoncus dapibus eu ut ipsum. Phasellus venenatis tortor vel nisi ultrices consectetur. Mauris congue nec tellus non laoreet. Morbi interdum risus sed magna ornare eleifend. Nunc sed orci a nisi consequat maximus et sit amet nunc. Donec porttitor consectetur purus, et accumsan urna eleifend vitae. Sed condimentum bibendum libero, sed sollicitudin odio pretium sed.</div>';
+        // //TODO: Implement some basic markup to get a default view
+        //
+        // return markup;
     };
 
     /*
@@ -731,29 +731,29 @@
     After that, it will return the jQuery object.
     */
     var generateFileBrowserElements = function(){
-        var header, footer, fileHierarchy, fileList, $container;
-
-        $container = jQuery('<div id="customFileBrowser"></div>');
-        //Generating Header/Footer as they're mostly containers for controls
-        header = generateFileBrowserHeaderMarkup();
-        footer = generateFileBrowserFooterMarkup();
-        fileHierarchy = generateFileBrowserHierarchyMarkup();
-        fileList = genereateFileBrowserListMarkup();
-
-        //Building the file content section
-        var content = [
-            '<div id="browserContent">',
-                fileHierarchy,
-                fileList,
-            '</div>'
-        ].join('');
-
-        //Adding the elements to the container
-        $container.append(header);
-        $container.append(content);
-        $container.append(footer);
-
-        return $container;
+        // var header, footer, fileHierarchy, fileList, $container;
+        //
+        // $container = jQuery('<div id="customFileBrowser"></div>');
+        // //Generating Header/Footer as they're mostly containers for controls
+        // header = generateFileBrowserHeaderMarkup();
+        // footer = generateFileBrowserFooterMarkup();
+        // fileHierarchy = generateFileBrowserHierarchyMarkup();
+        // fileList = genereateFileBrowserListMarkup();
+        //
+        // //Building the file content section
+        // var content = [
+        //     '<div id="browserContent">',
+        //         fileHierarchy,
+        //         fileList,
+        //     '</div>'
+        // ].join('');
+        //
+        // //Adding the elements to the container
+        // $container.append(header);
+        // $container.append(content);
+        // $container.append(footer);
+        //
+        // return $container;
     };
 
 
@@ -762,12 +762,12 @@
     as well as the click handler for folder labels.
     */
     var initializeFileBrowserHierarchy = function(){
-        //Retrieving the parent element
-        var $h = pageInfo.$fileBrowser.find('#folderHierarchy');
-        //Binding expand/collapse
-        $h.on('click', '.expand,.collapse', fileBrowserToggleExpandCollapse);
-        //Bind clicks for hierarchy spans
-        $h.on('click', 'a.label', showDirectoryContents);
+        // //Retrieving the parent element
+        // var $h = pageInfo.$fileBrowser.find('#folderHierarchy');
+        // //Binding expand/collapse
+        // $h.on('click', '.expand,.collapse', fileBrowserToggleExpandCollapse);
+        // //Bind clicks for hierarchy spans
+        // $h.on('click', 'a.label', showDirectoryContents);
     };
 
     /*
@@ -775,23 +775,23 @@
     load the list of files and sub-folders for the clicked folder in the right-side of the FileBrowser.
     */
     var showDirectoryContents = function(e){
-        var folderId, $target, files, folders;
-
-        $target = jQuery(e.target);
-        folderId = $target.attr('href').substring(1);
-
-        //TODO: Show the contents of the directory
-        console.log('showing contents of folder: ', folderId);
-        //Filtering against the list of folders
-        files = pageInfo.fileList[pageInfo.userId].filter(function(file){
-            return file.path[file.path.length - 2] === folderId;
-        });
-        //Retrieving the folders in the hierarchy that are direct children of the clicked folder
-        folders = Object.keys(retrieveFolderHierarchy(folderId));
-
-        console.log(files, folders);
-
-        return false;
+        // var folderId, $target, files, folders;
+        //
+        // $target = jQuery(e.target);
+        // folderId = $target.attr('href').substring(1);
+        //
+        // //TODO: Show the contents of the directory
+        // console.log('showing contents of folder: ', folderId);
+        // //Filtering against the list of folders
+        // files = pageInfo.fileList[pageInfo.userId].filter(function(file){
+        //     return file.path[file.path.length - 2] === folderId;
+        // });
+        // //Retrieving the folders in the hierarchy that are direct children of the clicked folder
+        // folders = Object.keys(retrieveFolderHierarchy(folderId));
+        //
+        // console.log(files, folders);
+        //
+        // return false;
     };
 
     /*
@@ -801,14 +801,14 @@
     Note: It will perform a simple collapse, and will not change the state of internally collapsed elements.
     */
     var fileBrowserToggleExpandCollapse = function(e){
-        var folderId, $target, $parent;
-
-        $target = jQuery(e.target);
-        $parent = $target.parent();
-        folderId = $parent.attr('href').substring(1);
-        //TODO: Implement clickHandler
-        console.log('expand/collapse for folder: ', folderId);
-        return false;
+        // var folderId, $target, $parent;
+        //
+        // $target = jQuery(e.target);
+        // $parent = $target.parent();
+        // folderId = $parent.attr('href').substring(1);
+        // //TODO: Implement clickHandler
+        // console.log('expand/collapse for folder: ', folderId);
+        // return false;
     };
 
     /*
@@ -819,22 +819,22 @@
     toggleFileBrowser when completed(which should display the fileBrowser).
     */
     var initializeFileBrowser = function(){
-        //TODO: Instantiate the DOM elements, and bind event handlers.
-        //Initializing the fileHierarchy
-        initializeFileHierarchy();
-        //Instantiating the DOM elements
-        var $fileBrowser =  generateFileBrowserElements();
-
-
-        //Appending fileBrowser to the DOM and showing it
-        jQuery('body').append($fileBrowser);
-        pageInfo.$fileBrowser = $fileBrowser;
-        //Binding event handlers
-        initializeFileBrowserHierarchy();
-
-
-
-        toggleFileBrowser();
+        // //TODO: Instantiate the DOM elements, and bind event handlers.
+        // //Initializing the fileHierarchy
+        // initializeFileHierarchy();
+        // //Instantiating the DOM elements
+        // var $fileBrowser =  generateFileBrowserElements();
+        //
+        //
+        // //Appending fileBrowser to the DOM and showing it
+        // jQuery('body').append($fileBrowser);
+        // pageInfo.$fileBrowser = $fileBrowser;
+        // //Binding event handlers
+        // initializeFileBrowserHierarchy();
+        //
+        //
+        //
+        // toggleFileBrowser();
     };
 
     /*
@@ -842,13 +842,13 @@
     the FileBrowser.
     */
     var toggleFileBrowser = function(){
-        var $fileBrowser, topLevel, i, l;
-        if(pageInfo.$fileBrowser){
-            pageInfo.$fileBrowser.toggle();
-        }//Else, we will be instantiating the function.
-        else{
-            initializeFileBrowser();
-        }
+        // var $fileBrowser, topLevel, i, l;
+        // if(pageInfo.$fileBrowser){
+        //     pageInfo.$fileBrowser.toggle();
+        // }//Else, we will be instantiating the function.
+        // else{
+        //     initializeFileBrowser();
+        // }
     };
 
     jQuery(document).ready(function(){

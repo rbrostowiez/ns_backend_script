@@ -125,7 +125,7 @@ NSBSPageInfo = (function(){
             }
 
             if(!pageInfo.hasOwnProperty('combinerFiles') && !pageInfo.combinerFiles){
-                pageInfo.combinerFiles = NSBSFileInfo.retrieveCombinerFiles();
+                //pageInfo.combinerFiles = NSBSFileInfo.retrieveCombinerFiles();
             }
             //Creating the button container
             if(!pageInfo.hasOwnProperty('$buttonContainer') && !pageInfo.$buttonContainer){
