@@ -387,15 +387,15 @@
 
     //renders an input, gets the dataset, starts event handlers, and typeahead plugin on selector for the input
     var renderTypeahead = function(){
-        var input = '<div id="nlAutoCompleteMenus"><input class="typeaheadcustom span6" type="text" placeholder="Search NetSuite Menus..." /><button>Go</button></div>';
-        pageInfo.$buttonContainer.append(input);
-        //jQuery('body').append(input);
-        var dataset = getLocalStorage('navigation');
-
-        initTypeAhead('#nlAutoCompleteMenus input.typeaheadcustom', JSON.parse(dataset));
-        initFocus('#nlAutoCompleteMenus input.typeaheadcustom.span6.tt-input');
-        //initBlur('#nlAutoCompleteMenus input.typeaheadcustom.span6.tt-input');
-        initClick('#nlAutoCompleteMenus button');
+        // var input = '<div id="nlAutoCompleteMenus"><input class="typeaheadcustom span6" type="text" placeholder="Search NetSuite Menus..." /><button>Go</button></div>';
+        // pageInfo.$buttonContainer.append(input);
+        // //jQuery('body').append(input);
+        // var dataset = getLocalStorage('navigation');
+        //
+        // initTypeAhead('#nlAutoCompleteMenus input.typeaheadcustom', JSON.parse(dataset));
+        // initFocus('#nlAutoCompleteMenus input.typeaheadcustom.span6.tt-input');
+        // //initBlur('#nlAutoCompleteMenus input.typeaheadcustom.span6.tt-input');
+        // initClick('#nlAutoCompleteMenus button');
     };
 
     //returns an subarray of objects from an array of objects filterd by {key:value}
