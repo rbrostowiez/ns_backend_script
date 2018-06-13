@@ -20,7 +20,8 @@ NSBSConfig = {
 
     links: [
         {label: "File Cabinet", path: "/app/common/media/mediaitemfolders.nl"},
-        {label: "Custom Record Types", path: "/app/common/custom/custrecords.nl"}
+        {label: "Custom Record Types", path: "/app/common/custom/custrecords.nl"},
+        {label: "Help", path: "/app/help/helpcenter.nl"}
     ],
 
     //A list of URLs where it's ok to initialize if we're in a child window
