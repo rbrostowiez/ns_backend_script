@@ -98,7 +98,7 @@
         $target = jQuery(e.target);
         folderId = $target.attr("href").substring(1);
 
-        console.log('Initiating download of folder: ', folderId);
+        //console.log('Initiating download of folder: ', folderId);
 
         folder = (pageInfo.folderData.hasOwnProperty(folderId)) ? pageInfo.folderData[folderId] : null;
         if(folder){
@@ -205,8 +205,8 @@
                 callback.call(this, data, status, jqXhr);
             }
             catch(e){
-                console.log('callback threw error');
-                console.error(e);
+                //console.log('callback threw error');
+                //console.error(e);
             }
 
             //Adding the links
@@ -379,7 +379,7 @@
         for(i = 0, l = NSBSConfig.excludedPages.length; !isCustom && i < l; i++){
             ret = ret && window.location.pathname.indexOf(NSBSConfig.excludedPages[i]) === -1;
         }
-        console.log('isValidPage: ', ret);
+        //console.log('isValidPage: ', ret);
         return ret;
     };
 
@@ -606,7 +606,7 @@
             }
 
             //once arrays have been generated we store them to local storage so this will only need to do ajax for the initial data store
-            console.log('Found %i labels, and %i menus.', navigation_labels.length, menu_arrays.length);
+            //console.log('Found %i labels, and %i menus.', navigation_labels.length, menu_arrays.length);
             setLocalStorage('navigation', navigation_labels);
             setLocalStorage('parents', parents);
             setLocalStorage('menus', menu_arrays);
@@ -863,7 +863,7 @@
             //This will log the primary data object for this script
             generateButton("LogData", function(e){
                 e.preventDefault();
-                console.log(pageInfo);
+                //console.log(pageInfo);
                 return false;
             });
 
