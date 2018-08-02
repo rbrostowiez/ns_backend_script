@@ -28,8 +28,11 @@ NSBSConfig.customPages = [
     {
         path: "/help/helpcenter",
         setup: function(){
-            var $title = jQuery('.nshelp_title');
-            document.title = $title.text();
+            jQuery(function(){
+                var $title = jQuery('.nshelp_title');
+                document.title = $title.text();
+                console.log($title.text());
+            });
         }
     }
 ];

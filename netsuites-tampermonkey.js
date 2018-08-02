@@ -336,17 +336,18 @@
     return true, and also set pageInfo.setup to be the defined setup function for the page.
     */
     var isCustomPage = function(){
-        var ret = false;
+        var isCustom = false;
         var customPages = NSBSConfig.customPages;
 
         for(var i = 0, l = customPages.length; i < l; i++){
             if(window.location.pathname.indexOf(customPages[i].path) !== -1){
-                ret = true;
+                isCustom = true;
+                console.log('Custom Page Found: ' + customPages[i].path);
                 pageInfo.customSetup = customPages[i].setup;
                 break;
             }
         }
-        return ret;
+        return isCustom;
     };
 
     /*
