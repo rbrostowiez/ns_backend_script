@@ -342,11 +342,14 @@
         for(var i = 0, l = customPages.length; i < l; i++){
             if(window.location.pathname.indexOf(customPages[i].path) !== -1){
                 isCustom = true;
-                console.log('Custom Page Found: ' + customPages[i].path);
+
                 pageInfo.customSetup = customPages[i].setup;
                 break;
             }
         }
+
+        console.log('Custom Page ' + (isCustom ? 'Found: ' + customPages[i].path : 'Not Found'));
+
         return isCustom;
     };
 
