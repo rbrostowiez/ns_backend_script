@@ -346,6 +346,7 @@
                 break;
             }
         }
+        console.log(customPages);
         console.log(window.location.pathname);
         console.log('Custom Page ' + (isCustom ? 'Found: ' + customPages[i].path : 'Not Found'));
 
