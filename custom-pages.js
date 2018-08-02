@@ -26,13 +26,11 @@ NSBSConfig.customPages = [
         }
     },
     {
-        path: "/help/helpcenter",
+        path: "/app/help/helpcenter.nl",
         setup: function(){
-            jQuery(function(){
-                var $title = jQuery('.nshelp_title');
-                document.title = $title.text();
-                console.log($title.text());
-            });
+            var $title = jQuery('.nshelp_title');
+            document.title = $title.text();
+            console.log($title.text());
         }
     }
 ];
