@@ -64,6 +64,11 @@
     padding: 4px 2px;
     border: 1px solid #d0d0d0;
     width: 96px;
+    background: rgba(255,255,255, 0.9);
+}
+
+.help-links .help-link-container a{
+    display: block;
 }
 
 ul#uir-global-search-container > li.uir-global-search-item a.edit-link, ul#uir-global-search-container > li.uir-global-search-item a.edit-link:link {
