@@ -24,7 +24,7 @@ NSBSConfig = {
     ],
 
     helpLinks: {
-        label: "Help",
+        label: "Help <span class=\"menu_tri\"></span>",
         path: "/app/help/helpcenter.nl",
         children: [
             { label: "Schema Browser", path: "/help/helpcenter/en_US/srbrowser/Browser2018_1/schema/record/account.html" },

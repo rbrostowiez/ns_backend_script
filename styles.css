@@ -51,6 +51,21 @@
     text-decoration: underline;
 }
 
+
+.help-links{
+    float: left;
+    position: relative;
+}
+
+.help-links .help-link-container{
+    display: none;
+    position: absolute;
+    top: 16px;
+    padding: 4px 2px;
+    border: 1px solid #d0d0d0;
+    width: 96px;
+}
+
 ul#uir-global-search-container > li.uir-global-search-item a.edit-link, ul#uir-global-search-container > li.uir-global-search-item a.edit-link:link {
     width: 78px !important; /*position: absolute; top:0; left: 0;*/
     font-size: 14px;
