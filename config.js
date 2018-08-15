@@ -21,8 +21,16 @@ NSBSConfig = {
     links: [
         {label: "File Cabinet", path: "/app/common/media/mediaitemfolders.nl"},
         {label: "Custom Record Types", path: "/app/common/custom/custrecords.nl"},
-        {label: "Help", path: "/app/help/helpcenter.nl"}
     ],
+
+    helpLinks: {
+        label: "Help",
+        path: "/app/help/helpcenter.nl",
+        children: [
+            { label: "Schema Browser", path: "/help/helpcenter/en_US/srbrowser/Browser2018_1/schema/record/account.html" },
+            { label: "SuiteScript 2.0", path: "/app/help/helpcenter.nl?fid=part_4563537633.html"}
+        ]
+    },
 
     //A list of URLs where it's ok to initialize if we're in a child window
     childWindowPages: [

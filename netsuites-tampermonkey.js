@@ -856,6 +856,29 @@
         // }
     };
 
+    var setupHelpLinks = function () {
+        var helpData = NSBSConfig.helpLinks;
+        var $help = generateLink(helpData.label, helpData.path);
+        var $helpContainer = jQuery('<div class="help-links"/>');
+        var i,l, $link;
+        pageInfo.$linkContainer.append($helpContainer);
+        $helpContainer.append($help);
+        var $helpLinkContainer = jQuery('<div class="help-link-container" />');
+        $helpContainer.append($helpLinkContainer);
+
+        for(i = 0, l = helpData.children.length; i < l; i++){
+            $link = generateLink(helpData.children[i].label, helpData.children[i].path);
+            $helpLinkContainer.append($link);
+        }
+
+        $helpContainer.hover(function(e){
+            $helpLinkContainer.show();
+        }, function(e){
+            $helpLinkContainer.hide();
+        });
+    };
+
+
     jQuery(document).ready(function(){
         //We only do something if it's a valid page
         if( isValidPage() ){
@@ -863,6 +886,7 @@
             setup();
             //Adds some links to the menu
             setupLinks();
+            setupHelpLinks();
 
             //This will log the primary data object for this script
             generateButton("LogData", function(e){
