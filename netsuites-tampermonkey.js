@@ -267,7 +267,7 @@
         //This will assign fileList itself, since it may require ajax calls
         //NSBSFileInfo.fetchOrRetrieveFileData();
 
-        if(jQuery.isArray(pageInfo.sspIds)){
+        if(pageInfo && pageInfo.sspIds && pageInfo.sspIds.length){
             renderSspLinks();
         }
         else{
