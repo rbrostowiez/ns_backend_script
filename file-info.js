@@ -9,7 +9,7 @@ NSBSFileInfo = (function(){
             url: "https://" + pageInfo.domain + "/app/common/scripting/webapplist.nl?whence=",
             success:function(data){
                 var nameIndex = 1 + jQuery('#div__labtab td:contains(Name)', data).index();
-                var $links = jQuery("#div__bodytab tr td:nth-child(" + nameIndex + ") a:contains(Custom)", data);
+                var $links = jQuery("#div__bodytab tr td:nth-child(" + nameIndex + ") a", data);
                 var sspIds = [];
 
                 for(var i = 0, l = $links.length; i < l; i++){
