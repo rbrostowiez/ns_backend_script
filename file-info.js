@@ -30,7 +30,7 @@ NSBSFileInfo = (function(){
 
     function retrieveSspIds(){
         var knownSspIds = JSON.parse(NSBSUtil.readCookie('knownSspIds'));
-        if(knownSspIds === null || !knownSspIds.hasOwnProperty(pageInfo.userId)){
+        if(knownSspIds === null || !knownSspIds.hasOwnProperty(parseInt(pageInfo.userId))){
             var currentSspIds = JSON.parse(NSBSUtil.readCookie('sspIds'));
             knownSspIds = knownSspIds || {};
             if(currentSspIds !== null){
