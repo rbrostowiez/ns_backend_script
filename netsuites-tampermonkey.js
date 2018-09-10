@@ -891,7 +891,7 @@
             //This will log the primary data object for this script
             generateButton("LogData", function(e){
                 e.preventDefault();
-                //console.log(pageInfo);
+                console.log(pageInfo);
                 return false;
             });
 
