@@ -5,6 +5,7 @@
 // @description  BackEnd scrips for NetSuite ERP
 // @match      https://system.na1.netsuite.com/*
 // @match      https://system.sandbox.netsuite.com/*
+// @match      https://system.netsuite.com/*
 // @copyright  2017 Raymond Brostowicz
 // @grant GM_getResourceText
 // @grant GM_addStyle
